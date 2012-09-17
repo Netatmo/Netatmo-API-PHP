@@ -603,7 +603,7 @@ class NAApiClient
      *   (optional The GET/POST parameters.
      *
      * @return
-     *   The JSON decoded response object.
+     *   The JSON decoded body response object.
      *
      * @throws NAClientException
     */
@@ -623,8 +623,9 @@ class NAApiClient
                 $params[$key] = json_encode($value);
             }
         }
-
-        return $this->makeOAuth2Request($this->getUri($path, array(), $secure), $method, $params);
+	$res = $this->makeOAuth2Request($this->getUri($path, array(), $secure), $method, $params);
+        if(isset($res["body"])) return $res["body"];
+	else return $res;
     }
     
     /**

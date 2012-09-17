@@ -22,7 +22,7 @@ if(isset($_GET["code"]))
         
         //For instance retrieve user info :
         $user = $client->api("getuser", "POST");
-        echo "Hello ".$user["body"]["mail"]."\n";
+        echo "Hello ".$user["mail"]."\n";
     }
     catch(NAClientException $ex)
     {

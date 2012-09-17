@@ -23,16 +23,16 @@ if(isset($_GET["code"]))
         try
         {
             $deviceList = $client->api("devicelist");        
-            if(isset($deviceList["body"]) && isset($deviceList["body"]["devices"]) && isset($deviceList["body"]["devices"][0]))
+            if(isset($deviceList["devices"]) && isset($deviceList["devices"][0]))
             {
-                $device_id = $deviceList["body"]["devices"][0]["_id"];//we use first user device in this example
+                $device_id = $deviceList["devices"][0]["_id"];//we use first user device in this example
                 //Retrieve last measures info :
                 $params = array("scale" => "max", "type" => "Temperature", "date_end" => "last", "device_id" => $device_id);
                 $res = $client->api("getmeasure", "POST", $params);
-                if(isset($res["body"][0]) && isset($res["body"][0]["beg_time"]))
+                if(isset($res[0]) && isset($res[0]["beg_time"]))
                 {
-                    $time = $res["body"][0]["beg_time"];
-                    $temperature = $res["body"][0]["value"][0][0];  
+                    $time = $res[0]["beg_time"];
+                    $temperature = $res[0]["value"][0][0];  
                     echo "User last temperature is $temperature Celcius @".date('c', $time)."\n";
                 }
                 else
