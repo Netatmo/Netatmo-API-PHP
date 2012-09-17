@@ -1,10 +1,9 @@
 <?php
 require_once 'NAApiClient.php';
 
-define('CLIENT_ID', 'yoursecret');
-define('CLIENT_SECRET', 'yoursecret');
-
-$client = new NAApiClient(array("client_id" => CLIENT_ID, "client_secret" => CLIENT_SECRET));
+$client_id = "YOUR_CLIENT_ID";
+$client_secret = "YOUR_CLIENT_SECRET";
+$client = new NAApiClient(array("client_id" => $client_id, "client_secret" => $client_secret));
 
 
 //Test if code is provided in get parameters (that means user has already accepted the app and has been redirected here)

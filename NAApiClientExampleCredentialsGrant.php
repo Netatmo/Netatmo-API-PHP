@@ -1,13 +1,12 @@
 <?php
 require_once 'NAApiClient.php';
 
-define('CLIENT_ID', 'yoursecret');
-define('CLIENT_SECRET', 'yoursecret');
+$client_id = "YOUR_CLIENT_ID";
+$client_secret = "YOUR_CLIENT_SECRET";
+$username = "YOUR_MAIL";
+$password = "YOUR_PWD";
 
-$username = "yourmail";
-$password = "yourpwd";
-
-$client = new NAApiClient(array("client_id" => CLIENT_ID, "client_secret" => CLIENT_SECRET, "username" => $username, "password" => $password));
+$client = new NAApiClient(array("client_id" => $client_id, "client_secret" => $client_secret, "username" => $username, "password" => $password));
 
 
 try
