@@ -1,4 +1,9 @@
 <?php
+/*
+Authentication to Netatmo Server with the authorization grant
+This script has to be hosted by your web server in order to make it work
+*/
+
 require_once 'NAApiClient.php';
 
 $client_id = "YOUR_CLIENT_ID";

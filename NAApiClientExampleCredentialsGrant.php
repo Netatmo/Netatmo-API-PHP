@@ -1,4 +1,7 @@
 <?php
+/*
+Authentication to Netatmo Server with the user credentials grant
+*/
 require_once 'NAApiClient.php';
 
 $client_id = "YOUR_CLIENT_ID";
