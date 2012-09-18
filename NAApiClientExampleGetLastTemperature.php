@@ -33,7 +33,7 @@ if(isset($_GET["code"]))
                 {
                     $time = $res[0]["beg_time"];
                     $temperature = $res[0]["value"][0][0];  
-                    echo "User last temperature is $temperature Celcius @".date('c', $time)."\n";
+                    echo "User last temperature is $temperature Celsius @".date('c', $time)."\n";
                 }
                 else
                 {
