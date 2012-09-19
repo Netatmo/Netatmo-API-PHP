@@ -5,9 +5,8 @@ This script has to be hosted by your web server in order to make it work
 */
 
 require_once 'NAApiClient.php';
+require_once 'Config.php';
 
-$client_id = "YOUR_CLIENT_ID";
-$client_secret = "YOUR_CLIENT_SECRET";
 $client = new NAApiClient(array("client_id" => $client_id, "client_secret" => $client_secret));
 
 
