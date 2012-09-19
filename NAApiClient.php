@@ -777,5 +777,65 @@ class NAApiClient
         return $url;
     }
 }
+/**
+ * API Helpers
+ *
+ * @author Originally written by Fred Potter <fred.potter@netatmo.com>.
+ */
+class NAApiHelper
+{
+    public function SimplifyDeviceList($devicelist) 
+    {
+	foreach ($devicelist["devices"] as $d=>$device) {
+		$moduledetails=Array();
+		foreach ($device["modules"] as $module) {
+			foreach ($devicelist["modules"] as $moduledetail) {
+				if ($module==$moduledetail['_id']) {
+					$moduledetails[]=$moduledetail;
+				}
+			}
+		}
+		unset($devicelist["devices"][$d]["modules"]);
+		$devicelist["devices"][$d]["modules"]=$moduledetails;
+        }
+	unset($devicelist["modules"]);
+	return($devicelist);
+    }
+    public function GetLastMeasure($client,$device,$module="") 
+    {
+	$params = array("scale" => "max", "type" => "Temperature,CO2,Humidity,Pressure,Noise", "date_end" => "last", "device_id" => $device, "limit"=>1);
+	if ($module!="") {
+		$params["module_id"]=$module;
+	}
+	$meas = $client->api("getmeasure", "POST", $params);
+	$result['time']=$meas[0]['beg_time'];
+	if ($meas[0]['value'][0][0]!='') $result['Temperature']=$meas[0]['value'][0][0];
+	if ($meas[0]['value'][0][1]!='') $result['CO2']=        $meas[0]['value'][0][1];
+	if ($meas[0]['value'][0][2]!='') $result['Humidity']=   $meas[0]['value'][0][2];
+	if ($meas[0]['value'][0][3]!='') $result['Pressure']=   $meas[0]['value'][0][3];
+	if ($meas[0]['value'][0][4]!='') $result['Noise']=      $meas[0]['value'][0][4];
+	return($result);
+    }
+    public function GetLastMeasures($client) 
+    {
+	$results = Array();
+	$devicelist = $client->api("devicelist", "POST");
+	$devicelist = $this->SimplifyDeviceList($devicelist);
+	foreach ($devicelist["devices"] as $device) {
+		$result = Array();
+		$result["station_name"] = $device["station_name"];
+		$result["modules"][0]["module_name"] = $device["module_name"];
+		$result["modules"][0] = array_merge($result["modules"][0], $this->GetLastMeasure($client,$device["_id"]));
+		foreach ($device["modules"] as $module) {
+			$addmodule = Array();
+			$addmodule["module_name"] = $module["module_name"];
+			$addmodule = array_merge($addmodule, $this->GetLastMeasure($client,$device["_id"],$module["_id"]));
+			$result["modules"][] = $addmodule;
+		}
+		$results[] = $result;
+        }
+	return($results);
+    }
+}
 
 ?>
