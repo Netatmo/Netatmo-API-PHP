@@ -15,13 +15,16 @@ if(isset($_GET["code"]))
 {
     try
     {
+	// Get the token for later usage.
         $tokens = $client->getAccessToken();        
-        $refresh_token = $tokens["refresh_token"]; /*permanent refresh token that is needed to obtain new access_token*/
-        $access_token = $tokens["access_token"]; /*access token that is need to access api method*/
+	$helper = new NAApiHelper();
         
-        //For instance retrieve user info :
-        $user = $client->api("getuser", "POST");
-        echo "Hello ".$user["mail"]."\n";
+	$user = $client->api("getuser", "POST");
+	$devicelist = $client->api("devicelist", "POST");
+	$devicelist = $helper->SimplifyDeviceList($devicelist);
+	$mesures = $helper->GetLastMeasures($client,$devicelist);
+	print_r($mesures);
+
     }
     catch(NAClientException $ex)
     {
