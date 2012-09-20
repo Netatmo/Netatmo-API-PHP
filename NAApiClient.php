@@ -832,13 +832,13 @@ class NAApiHelper
         foreach ($simplifieddevicelist["devices"] as $device) 
         {
             $result = Array();
-            $result["station_name"] = $device["station_name"];
-            $result["modules"][0]["module_name"] = $device["module_name"];
+            if(isset($device["station_name"])) $result["station_name"] = $device["station_name"];
+            if(isset($device["modules"][0])) $result["modules"][0]["module_name"] = $device["module_name"];
             $result["modules"][0] = array_merge($result["modules"][0], $this->GetLastMeasure($client,$device["_id"]));
             foreach ($device["modules"] as $module) 
             {
                 $addmodule = Array();
-                $addmodule["module_name"] = $module["module_name"];
+                if(isset($module["module_name"])) $addmodule["module_name"] = $module["module_name"];
                 $addmodule = array_merge($addmodule, $this->GetLastMeasure($client,$device["_id"],$module["_id"]));
                 $result["modules"][] = $addmodule;
             }
