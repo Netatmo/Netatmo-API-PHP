@@ -15,14 +15,22 @@ if(isset($_GET["code"]))
 {
     try
     {
-    // Get the token for later usage.
-        $tokens = $client->getAccessToken();        
-    $helper = new NAApiHelper();
+	    // Get the token for later usage.(you can store $tokens["refresh_token"] for retrieving a new access_token next time)
+	    $tokens = $client->getAccessToken();       
+    } 
+    catch(NAClientException $ex)
+    {
+        echo "An error happend while trying to retrieve your tokens\n";
+        die();
+    }
+    try
+    {
+        $helper = new NAApiHelper();
         
-    $user = $client->api("getuser", "POST");
-    $devicelist = $client->api("devicelist", "POST");
-    $devicelist = $helper->SimplifyDeviceList($devicelist);
-    $mesures = $helper->GetLastMeasures($client,$devicelist);
+        $user = $client->api("getuser", "POST");
+        $devicelist = $client->api("devicelist", "POST");
+        $devicelist = $helper->SimplifyDeviceList($devicelist);
+        $mesures = $helper->GetLastMeasures($client,$devicelist);
 ?>
         <html><body><pre><code>
 <?php
@@ -34,7 +42,8 @@ if(isset($_GET["code"]))
     }
     catch(NAClientException $ex)
     {
-        echo "An error happend while trying to retrieve your tokens\n";
+        echo "An error happend while trying to retrieve your last measures\n";
+        echo $ex->getMessage()."\n";
     }
 }
 else
