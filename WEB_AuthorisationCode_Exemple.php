@@ -15,15 +15,21 @@ if(isset($_GET["code"]))
 {
     try
     {
-	// Get the token for later usage.
+    // Get the token for later usage.
         $tokens = $client->getAccessToken();        
-	$helper = new NAApiHelper();
+    $helper = new NAApiHelper();
         
-	$user = $client->api("getuser", "POST");
-	$devicelist = $client->api("devicelist", "POST");
-	$devicelist = $helper->SimplifyDeviceList($devicelist);
-	$mesures = $helper->GetLastMeasures($client,$devicelist);
-	print_r($mesures);
+    $user = $client->api("getuser", "POST");
+    $devicelist = $client->api("devicelist", "POST");
+    $devicelist = $helper->SimplifyDeviceList($devicelist);
+    $mesures = $helper->GetLastMeasures($client,$devicelist);
+?>
+        <html><body><pre><code>
+<?php
+        echo json_format(json_encode($mesures, true));
+?>
+        </code></pre></body></html>
+<?php
 
     }
     catch(NAClientException $ex)
@@ -40,7 +46,7 @@ else
         else
             echo "An error happend\n";
     }
-    else
+    else if(isset($_GET["start"]))
     {
         //Ok redirect to Netatmo Authorize URL
         $redirect_url = $client->getAuthorizeUrl();
@@ -48,5 +54,82 @@ else
         header("Location: " . $redirect_url);
         die();
     }
+    else
+    {
+?>
+<html>
+    <body>
+       <form method="GET" action="<?php echo $client->getRequestUri();?>">
+           <input type='submit' name='start' value='Start'/>
+       </form>
+    </body>
+</html>     
+<?php
+    }
 }
+
+/**
+ * Pretty print JSON string
+ * @param string $json
+ * @return string formated json
+ */
+function json_format($json)
+{
+    $tab = "    ";
+    $new_json = "";
+    $indent_level = 0;
+    $in_string = FALSE;
+
+    $len = strlen($json);
+
+    for($c = 0; $c < $len; $c++) {
+        $char = $json[$c];
+        switch($char) {
+            case '{':
+            case '[':
+                if(!$in_string) {
+                    $new_json .= $char . "\n" . 
+                    str_repeat($tab, $indent_level+1);
+                    $indent_level++;
+                } else {
+                    $new_json .= $char;
+                }
+                break;
+            case '}':
+            case ']':
+                if(!$in_string) {
+                    $indent_level--;
+                    $new_json .= "\n".str_repeat($tab, $indent_level).$char;
+                } else {
+                    $new_json .= $char;
+                }
+                break;
+            case ',':
+                if(!$in_string) {
+                    $new_json .= ",\n" . str_repeat($tab, $indent_level);
+                } else {
+                    $new_json .= $char;
+                }
+                break;
+            case ':':
+                if(!$in_string) {
+                    $new_json .= ": ";
+                } else {
+                    $new_json .= $char;
+                }
+                break;
+            case '"':
+                if($c==0){
+                    $in_string = TRUE;
+                }elseif($c > 0 && $json[$c-1] != '\\') {
+                    $in_string = !$in_string;
+                }
+            default:
+                $new_json .= $char;
+                break;
+        }
+    }
+    return $new_json;
+}
+
 ?>
