@@ -805,21 +805,26 @@ class NAApiHelper
         unset($devicelist["modules"]);
         return($devicelist);
     }
-    public function GetLastMeasure($client,$device,$module="") 
+    public function GetLastMeasure($client, $device, $module=null) 
     {
-        $params = array("scale" => "max", "type" => "Temperature,CO2,Humidity,Pressure,Noise", "date_end" => "last", "device_id" => $device, "limit"=>1);
-        if ($module!="") 
+        $params = array("scale" => "max", "type" => "Temperature,CO2,Humidity,Pressure,Noise", "date_end" => "last", "device_id" => $device);
+        $result = array();
+        if (!is_null($module)) 
         {
             $params["module_id"]=$module;
         }
         $meas = $client->api("getmeasure", "POST", $params);
-        $result['time']=$meas[0]['beg_time'];
-        if ($meas[0]['value'][0][0]!='') $result['Temperature']=$meas[0]['value'][0][0];
-        if ($meas[0]['value'][0][1]!='') $result['CO2']=        $meas[0]['value'][0][1];
-        if ($meas[0]['value'][0][2]!='') $result['Humidity']=   $meas[0]['value'][0][2];
-        if ($meas[0]['value'][0][3]!='') $result['Pressure']=   $meas[0]['value'][0][3];
-        if ($meas[0]['value'][0][4]!='') $result['Noise']=      $meas[0]['value'][0][4];
+        if(isset($meas[0]))
+        {
+            $result['time'] = $meas[0]['beg_time'];
+            if ($meas[0]['value'][0][0]!='') $result['Temperature']=$meas[0]['value'][0][0];
+            if ($meas[0]['value'][0][1]!='') $result['CO2']=        $meas[0]['value'][0][1];
+            if ($meas[0]['value'][0][2]!='') $result['Humidity']=   $meas[0]['value'][0][2];
+            if ($meas[0]['value'][0][3]!='') $result['Pressure']=   $meas[0]['value'][0][3];
+            if ($meas[0]['value'][0][4]!='') $result['Noise']=      $meas[0]['value'][0][4];
+        }
         return($result);
+
     }
     public function GetLastMeasures($client,$simplifieddevicelist) 
     {
