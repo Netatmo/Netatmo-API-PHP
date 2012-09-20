@@ -816,12 +816,10 @@ class NAApiHelper
 	if ($meas[0]['value'][0][4]!='') $result['Noise']=      $meas[0]['value'][0][4];
 	return($result);
     }
-    public function GetLastMeasures($client) 
+    public function GetLastMeasures($client,$simplifieddevicelist) 
     {
 	$results = Array();
-	$devicelist = $client->api("devicelist", "POST");
-	$devicelist = $this->SimplifyDeviceList($devicelist);
-	foreach ($devicelist["devices"] as $device) {
+	foreach ($simplifieddevicelist["devices"] as $device) {
 		$result = Array();
 		$result["station_name"] = $device["station_name"];
 		$result["modules"][0]["module_name"] = $device["module_name"];
