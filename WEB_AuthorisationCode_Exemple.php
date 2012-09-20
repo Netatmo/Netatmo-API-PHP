@@ -44,7 +44,7 @@ else
     {
         //Ok redirect to Netatmo Authorize URL
         $redirect_url = $client->getAuthorizeUrl();
-        header("HTTP/1.1 ". OAUTH2_HTTP_FOUND);
+        header("HTTP/1.1 ". 302);
         header("Location: " . $redirect_url);
         die();
     }
