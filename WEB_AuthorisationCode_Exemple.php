@@ -34,7 +34,7 @@ if(isset($_GET["code"]))
 ?>
         <html><body><pre><code>
 <?php
-        echo json_format(json_encode($mesures, true));
+        echo json_format(json_encode($mesures));
 ?>
         </code></pre></body></html>
 <?php
