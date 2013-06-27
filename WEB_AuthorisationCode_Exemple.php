@@ -21,6 +21,7 @@ if(isset($_GET["code"]))
     catch(NAClientException $ex)
     {
         echo "An error happend while trying to retrieve your tokens\n";
+        echo "Reason : ".$ex->getMessage()."\n";
         die();
     }
     try
