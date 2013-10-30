@@ -1,6 +1,6 @@
 <?php
-$client_id = "YOUR_CLIENT_ID";
-$client_secret = "YOUR_CLIENT_SECRET";
-$test_username = "YOUR_EMAIL";
-$test_password = "YOUR_PASSWORD";
+$client_id = "your_client_id";
+$client_secret = "your_client_secret";
+$test_username = "your_username";
+$test_password = "your_pwd";
 ?>
