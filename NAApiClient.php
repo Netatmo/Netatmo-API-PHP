@@ -784,7 +784,7 @@ class NAApiClient
  */
 class NAApiHelper
 {
-    public function SimplifyDeviceList($devicelist) 
+    public function simplifyDeviceList($devicelist) 
     {
         foreach ($devicelist["devices"] as $d=>$device) 
         {
@@ -805,7 +805,7 @@ class NAApiHelper
         unset($devicelist["modules"]);
         return($devicelist);
     }
-    public function GetLastMeasure($client, $device, $module=null) 
+    public function getLastMeasure($client, $device, $module=null) 
     {
         $params = array("scale" => "max", "type" => "Temperature,CO2,Humidity,Pressure,Noise", "date_end" => "last", "device_id" => $device);
         $result = array();
@@ -826,7 +826,7 @@ class NAApiHelper
         return($result);
 
     }
-    public function GetLastMeasures($client,$simplifieddevicelist) 
+    public function getLastMeasures($client,$simplifieddevicelist) 
     {
         $results = Array();
         foreach ($simplifieddevicelist["devices"] as $device) 
@@ -839,7 +839,7 @@ class NAApiHelper
             {
                 $addmodule = Array();
                 if(isset($module["module_name"])) $addmodule["module_name"] = $module["module_name"];
-                $addmodule = array_merge($addmodule, $this->GetLastMeasure($client,$device["_id"],$module["_id"]));
+                $addmodule = array_merge($addmodule, $this->getLastMeasure($client,$device["_id"],$module["_id"]));
                 $result["modules"][] = $addmodule;
             }
             $results[] = $result;

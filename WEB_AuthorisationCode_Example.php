@@ -30,8 +30,8 @@ if(isset($_GET["code"]))
         
         $user = $client->api("getuser", "POST");
         $devicelist = $client->api("devicelist", "POST");
-        $devicelist = $helper->SimplifyDeviceList($devicelist);
-        $mesures = $helper->GetLastMeasures($client,$devicelist);
+        $devicelist = $helper->simplifyDeviceList($devicelist);
+        $mesures = $helper->getLastMeasures($client,$devicelist);
 ?>
         <html><body><pre><code>
 <?php

@@ -28,13 +28,13 @@ echo ("---------------\n");
 echo ("- Device List -\n");
 echo ("---------------\n");
 $devicelist = $client->api("devicelist", "POST");
-$devicelist = $helper->SimplifyDeviceList($devicelist);
+$devicelist = $helper->simplifyDeviceList($devicelist);
 //print_r($devicelist);
 echo ("OK\n");
 echo ("-----------------\n");
 echo ("- Last Measures -\n");
 echo ("-----------------\n");
-$mesures = $helper->GetLastMeasures($client,$devicelist);
+$mesures = $helper->getLastMeasures($client,$devicelist);
 print_r($mesures);
 echo ("OK\n");
 
