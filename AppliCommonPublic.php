@@ -79,5 +79,52 @@ class NARadioRssiTreshold
     const RADIO_THRESHOLD_3 = 60;
 }
 
+class NAScheduleTime
+{
+    const WEEK_WAKEUP_TIME_DEFAULT = 420;
+    const WEEK_SLEEP_TIME_DEFAULT = 1320;
+    const WEEK_WORK_TIME_DEFAULT = 480;
+    const WEEK_WORK_TIME_BACK_DEFAULT = 1140;
+    const WEEK_WORK_LUNCH_TIME_DEFAULT = 720;
+    const WEEK_WORK_LUNCH_TIME_BACK_DEFAULT = 810;
+}
+
+
+class NABatteryLevelIndoorModule
+{
+    /* Battery range: 6000 ... 4200 */
+    const INDOOR_BATTERY_LEVEL_0 = 5640;/*full*/
+    const INDOOR_BATTERY_LEVEL_1 = 5280;/*high*/
+    const INDOOR_BATTERY_LEVEL_2 = 4920;/*medium*/
+    const INDOOR_BATTERY_LEVEL_3 = 4560;/*low*/
+    /* Below 4560: very low */
+}
+
+class NABatteryLevelModule
+{
+    /* Battery range: 6000 ... 3600 */
+    const BATTERY_LEVEL_0 = 5500;/*full*/
+    const BATTERY_LEVEL_1 = 5000;/*high*/
+    const BATTERY_LEVEL_2 = 4500;/*medium*/
+    const BATTERY_LEVEL_3 = 4000;/*low*/
+    /* below 4000: very low */
+}
+
+class NABatteryLevelThermostat
+{
+    /* Battery range: 4500 ... 3000 */
+    const THERMOSTAT_BATTERY_LEVEL_0 = 4100;/*full*/
+    const THERMOSTAT_BATTERY_LEVEL_1 = 3600;/*high*/
+    const THERMOSTAT_BATTERY_LEVEL_2 = 3300;/*medium*/
+    const THERMOSTAT_BATTERY_LEVEL_3 = 3000;/*low*/
+    /* below 3000: very low */
+}
+
+class NATimeBeforeDataExpire
+{
+    const TIME_BEFORE_UNKNONWN_THERMOSTAT = 7200;
+    const TIME_BEFORE_UNKNONWN_STATION = 86400;
+}
+
 
 ?>
