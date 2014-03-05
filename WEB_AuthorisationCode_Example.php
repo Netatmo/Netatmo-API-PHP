@@ -9,7 +9,6 @@ require_once 'Config.php';
 
 $client = new NAApiClient(array("client_id" => $client_id, "client_secret" => $client_secret));
 
-
 //Test if code is provided in get parameters (that means user has already accepted the app and has been redirected here)
 if(isset($_GET["code"]))
 {
@@ -17,7 +16,7 @@ if(isset($_GET["code"]))
     {
 	    // Get the token for later usage.(you can store $tokens["refresh_token"] for retrieving a new access_token next time)
 	    $tokens = $client->getAccessToken();       
-    } 
+    }
     catch(NAClientException $ex)
     {
         echo "An error happend while trying to retrieve your tokens\n";
@@ -27,7 +26,7 @@ if(isset($_GET["code"]))
     try
     {
         $helper = new NAApiHelper();
-        
+
         $user = $client->api("getuser", "POST");
         $devicelist = $client->api("devicelist", "POST");
         $devicelist = $helper->simplifyDeviceList($devicelist);
@@ -59,7 +58,7 @@ else
     else if(isset($_GET["start"]))
     {
         //Ok redirect to Netatmo Authorize URL
-        $redirect_url = $client->getAuthorizeUrl();
+        $redirect_url = $client->getAuthorizeUrl("rs");
         header("HTTP/1.1 ". 302);
         header("Location: " . $redirect_url);
         die();

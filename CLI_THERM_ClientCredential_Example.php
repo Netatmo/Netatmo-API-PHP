@@ -6,7 +6,9 @@ Authentication to Netatmo Server with the user credentials grant
 require_once 'NAApiClient.php';
 require_once 'Config.php';
 
-$client = new NAApiClient(array("client_id" => $client_id, "client_secret" => $client_secret, "username" => $test_username, "password" => $test_password));
+$scope = "rt wt";
+
+$client = new NAApiClient(array("client_id" => $client_id, "client_secret" => $client_secret, "username" => $test_username, "password" => $test_password, "scope" => $scope));
 $helper = new NAApiHelper();
 
 try {
