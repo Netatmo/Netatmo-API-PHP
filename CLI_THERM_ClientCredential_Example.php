@@ -6,7 +6,7 @@ Authentication to Netatmo Server with the user credentials grant
 require_once 'NAApiClient.php';
 require_once 'Config.php';
 
-$scope = "rt wt";
+$scope = NAScopes::SCOPE_READ_THERM . " " . NAScopes::SCOPE_WRITE_THERM;
 
 $client = new NAApiClient(array("client_id" => $client_id, "client_secret" => $client_secret, "username" => $test_username, "password" => $test_password, "scope" => $scope));
 $helper = new NAApiHelper();

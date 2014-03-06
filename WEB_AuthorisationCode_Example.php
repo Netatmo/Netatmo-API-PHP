@@ -58,7 +58,7 @@ else
     else if(isset($_GET["start"]))
     {
         //Ok redirect to Netatmo Authorize URL
-        $redirect_url = $client->getAuthorizeUrl("rs");
+        $redirect_url = $client->getAuthorizeUrl(NAScopes::SCOPE_READ_STATION);
         header("HTTP/1.1 ". 302);
         header("Location: " . $redirect_url);
         die();

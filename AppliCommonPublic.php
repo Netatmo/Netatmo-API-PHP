@@ -36,6 +36,14 @@ class NARestErrorCode
     const FORCE_ASSOCIATE = 33;
 }
 
+class NAScopes
+{
+    const SCOPE_READ_STATION = "read_station";
+    const SCOPE_WRITE_STATION = "write_station";
+    const SCOPE_READ_THERM = "read_thermostat";
+    const SCOPE_WRITE_THERM = "write_thermostat";
+}
+
 class NAClientErrorCode
 {
     const OAUTH_INVALID_GRANT = -1;

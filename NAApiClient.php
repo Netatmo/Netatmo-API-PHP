@@ -7,17 +7,10 @@ define('INTERNAL_ERROR_TYPE', 2); //error because internal state is not consiste
 define('JSON_ERROR_TYPE',3);
 define('NOT_LOGGED_ERROR_TYPE', 4); //unable to get access token
 
-define('BACKEND_BASE_URI', "http://192.168.0.44/");
-define('BACKEND_SERVICES_URI', "http://192.168.0.44/api");
-define('BACKEND_ACCESS_TOKEN_URI', "http://192.168.0.44/oauth2/token");
-define('BACKEND_AUTHORIZE_URI', "http://192.168.0.44/oauth2/authorize");
-
-/*
 define('BACKEND_BASE_URI', "http://api.netatmo.net/");
 define('BACKEND_SERVICES_URI', "http://api.netatmo.net/api");
 define('BACKEND_ACCESS_TOKEN_URI', "https://api.netatmo.net/oauth2/token");
 define('BACKEND_AUTHORIZE_URI', "https://api.netatmo.net/oauth2/authorize");
-*/
 
 /**
  * OAuth2.0 Netatmo exception handling
@@ -448,7 +441,7 @@ class NAApiClient
         $scope = $this->getVariable('scope');
         if($scope == null)
         {
-            $scope = "rs";
+            $scope = NAScopes::SCOPE_READ_STATION;
         }
         if($this->getVariable('access_token_uri') && ($client_id = $this->getVariable('client_id')) != NULL && ($client_secret = $this->getVariable('client_secret')) != NULL && $redirect_uri != NULL)
         {
@@ -491,7 +484,7 @@ class NAApiClient
         $scope = $this->getVariable('scope');
         if($scope == null)
         {
-            $scope = "rs";
+            $scope = NAScopes::SCOPE_READ_STATION;
         }
         if ($this->getVariable('access_token_uri') && ($client_id = $this->getVariable('client_id')) != NULL && ($client_secret = $this->getVariable('client_secret')) != NULL)
         {
