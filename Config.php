@@ -1,6 +1,6 @@
 <?php
-$client_id = "your_client_id";
-$client_secret = "your_client_secret";
-$test_username = "your_username";
-$test_password = "your_pwd";
+$client_id = "53159dfc55ee4f904e866de5";
+$client_secret = "QK2IsYGQGGEN3cmGGq0MD6wjQAss62GEi2o";
+$test_username = "fabien.duval@netatmo.com";
+$test_password = "toto";
 ?>

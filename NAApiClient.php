@@ -12,6 +12,7 @@ define('BACKEND_SERVICES_URI', "http://api.netatmo.net/api");
 define('BACKEND_ACCESS_TOKEN_URI', "https://api.netatmo.net/oauth2/token");
 define('BACKEND_AUTHORIZE_URI', "https://api.netatmo.net/oauth2/authorize");
 
+
 /**
  * OAuth2.0 Netatmo exception handling
  *
@@ -474,15 +475,15 @@ class NAApiClient
    * @param $password
    *   Password to be check with.
    *
-    * @return
-    *   A valid OAuth2.0 JSON decoded access token in associative array
-    * @thrown
-    *  A NAClientException if unable to retrieve an access_token
+   * @return
+   *   A valid OAuth2.0 JSON decoded access token in associative array
+   * @thrown
+   *  A NAClientException if unable to retrieve an access_token
    */
     private function getAccessTokenFromPassword($username, $password)
     {
         $scope = $this->getVariable('scope');
-        if($scope == null)
+        if(is_null($scope))
         {
             $scope = NAScopes::SCOPE_READ_STATION;
         }
@@ -528,16 +529,33 @@ class NAApiClient
     {
         if ($this->getVariable('access_token_uri') && ($client_id = $this->getVariable('client_id')) != NULL && ($client_secret = $this->getVariable('client_secret')) != NULL && ($refresh_token = $this->refresh_token) != NULL)
         {
-            $ret = $this->makeRequest(
-                $this->getVariable('access_token_uri'),
-                'POST',
-                array(
-                    'grant_type' => 'refresh_token',
-                    'client_id' => $this->getVariable('client_id'),
-                    'client_secret' => $this->getVariable('client_secret'),
-                    'refresh_token' => $refresh_token,
-                )
-            );
+            if($this->getVariable('scope') != null)
+            {
+                $ret = $this->makeRequest(
+                    $this->getVariable('access_token_uri'),
+                    'POST',
+                    array(
+                        'grant_type' => 'refresh_token',
+                        'client_id' => $this->getVariable('client_id'),
+                        'client_secret' => $this->getVariable('client_secret'),
+                        'refresh_token' => $refresh_token,
+                        'scope' => $this->getVariable('scope'),
+                        )
+                    );
+            }
+            else
+            {
+                $ret = $this->makeRequest(
+                    $this->getVariable('access_token_uri'),
+                    'POST',
+                    array(
+                        'grant_type' => 'refresh_token',
+                        'client_id' => $this->getVariable('client_id'),
+                        'client_secret' => $this->getVariable('client_secret'),
+                        'refresh_token' => $refresh_token,
+                        )
+                    );
+            }
             $this->setTokens($ret);
             return $ret;
         }
