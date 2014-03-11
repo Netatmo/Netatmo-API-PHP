@@ -1,4 +1,4 @@
-<?php
+B1;3201;0c<?php
 class NARestErrorCode
 {
     const ACCESS_TOKEN_MISSING = 1;
@@ -39,7 +39,6 @@ class NARestErrorCode
 class NAScopes
 {
     const SCOPE_READ_STATION = "read_station";
-    const SCOPE_WRITE_STATION = "write_station";
     const SCOPE_READ_THERM = "read_thermostat";
     const SCOPE_WRITE_THERM = "write_thermostat";
     static $validScopes = array(NAScopes::SCOPE_READ_STATION,NAScopes::SCOPE_WRITE_STATION,NAScopes::SCOPE_READ_THERM,NAScopes::SCOPE_WRITE_THERM);
