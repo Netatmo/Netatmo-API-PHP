@@ -12,7 +12,6 @@ define('BACKEND_SERVICES_URI', "http://api.netatmo.net/api");
 define('BACKEND_ACCESS_TOKEN_URI', "https://api.netatmo.net/oauth2/token");
 define('BACKEND_AUTHORIZE_URI', "https://api.netatmo.net/oauth2/authorize");
 
-
 /**
  * OAuth2.0 Netatmo exception handling
  *
@@ -454,6 +453,7 @@ class NAApiClient
                     'client_secret' => $client_secret,
                     'code' => $code,
                     'redirect_uri' => $redirect_uri,
+                    'scope' => $scope,
                 )
             );
             $this->setTokens($ret);
