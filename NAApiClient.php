@@ -416,6 +416,10 @@ class NAApiClient
         {
             $state = rand();
         }
+        if(is_null($scope))
+        {
+            $scope = $this->getVariable('scope');
+        }
         $params = array("scope" => $scope, "state" => $state, "client_id" => $this->getVariable("client_id"), "client_secret" => $this->getVariable("client_secret"), "response_type" => "code", "redirect_uri" => $redirect_uri);
         return $this->getUri($this->getVariable("authorize_uri"), $params);
     }

@@ -7,7 +7,7 @@ This script has to be hosted by your web server in order to make it work
 require_once 'NAApiClient.php';
 require_once 'Config.php';
 
-$client = new NAApiClient(array("client_id" => $client_id, "client_secret" => $client_secret));
+$client = new NAApiClient(array("client_id" => $client_id, "client_secret" => $client_secret, "scope" => NAScopes::SCOPE_READ_STATION));
 
 //Test if code is provided in get parameters (that means user has already accepted the app and has been redirected here)
 if(isset($_GET["code"]))
@@ -58,7 +58,7 @@ else
     else if(isset($_GET["start"]))
     {
         //Ok redirect to Netatmo Authorize URL
-        $redirect_url = $client->getAuthorizeUrl(NAScopes::SCOPE_READ_STATION);
+        $redirect_url = $client->getAuthorizeUrl();
         header("HTTP/1.1 ". 302);
         header("Location: " . $redirect_url);
         die();
