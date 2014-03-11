@@ -1,4 +1,4 @@
-B1;3201;0c<?php
+<?php
 class NARestErrorCode
 {
     const ACCESS_TOKEN_MISSING = 1;
