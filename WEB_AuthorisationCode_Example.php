@@ -7,8 +7,7 @@ This script has to be hosted by your web server in order to make it work
 require_once 'NAApiClient.php';
 require_once 'Config.php';
 
-$client = new NAApiClient(array("client_id" => $client_id, "client_secret" => $client_secret));
-
+$client = new NAApiClient(array("client_id" => $client_id, "client_secret" => $client_secret, "scope" => NAScopes::SCOPE_READ_STATION));
 
 //Test if code is provided in get parameters (that means user has already accepted the app and has been redirected here)
 if(isset($_GET["code"]))
@@ -17,7 +16,7 @@ if(isset($_GET["code"]))
     {
 	    // Get the token for later usage.(you can store $tokens["refresh_token"] for retrieving a new access_token next time)
 	    $tokens = $client->getAccessToken();       
-    } 
+    }
     catch(NAClientException $ex)
     {
         echo "An error happend while trying to retrieve your tokens\n";
@@ -27,7 +26,7 @@ if(isset($_GET["code"]))
     try
     {
         $helper = new NAApiHelper();
-        
+
         $user = $client->api("getuser", "POST");
         $devicelist = $client->api("devicelist", "POST");
         $devicelist = $helper->simplifyDeviceList($devicelist);
