@@ -856,20 +856,37 @@ class NAApiHelper
         unset($devicelist["modules"]);
         return($devicelist);
     }
-    public function getLastMeasure($client, $device, $module=null)
+    public function getLastMeasure($client, $device, $device_type, $module=null, $module_type = null)
     {
-        $params = array("scale" => "max", "type" => "Temperature,CO2,Humidity,Pressure,Noise", "date_end" => "last", "device_id" => $device);
+        $params = array("scale" => "max", "date_end" => "last", "device_id" => $device);
         $result = array();
         if(!is_null($module))
         {
-            if(strncasecmp($module, "02:00:00", strlen("02:00:00")) == 0)
-                $params["type"] = "Temperature,Humidity";
-            else if(strncasecmp($module, "03:00:00", strlen("03:00:00")) == 0)
-                $params["type"] = "Temperature,CO2,Humidity";
-            else if(strncasecmp($module, "05:00:00", strlen("05:00:00")) == 0)
-                $params["type"] = "Rain";
+            switch($module_type)
+            {
+                case "NAModule1":
+                    $params["type"] = "Temperature,Humidity";
+                break;
+                case "NAModule4":
+                    $params["type"] = "Temperature,CO2,Humidity";
+                break;
+                case "NAModule3":
+                    $params["type"] = "Rain";
+                break;
+            }
 
             $params["module_id"] = $module;
+        }
+        else
+        {
+            switch($device_type)
+            {
+                case "NAMain":
+                    $params["type"] = "Temperature,CO2,Humidity,Pressure,Noise";
+                break;
+                case "NAPlug":
+                    $params["type"] = "Temperature,Sp_Temperature,BoilerOn,BoilerOff";
+            }
         }
         $types = explode(",", $params["type"]);
         if($types === FALSE)
@@ -896,12 +913,12 @@ class NAApiHelper
             $result = array();
             if(isset($device["station_name"])) $result["station_name"] = $device["station_name"];
             if(isset($device["modules"][0])) $result["modules"][0]["module_name"] = $device["module_name"];
-            $result["modules"][0] = array_merge($result["modules"][0], $this->getLastMeasure($client,$device["_id"]));
+            $result["modules"][0] = array_merge($result["modules"][0], $this->getLastMeasure($client,$device["_id"], $device["type"]));
             foreach ($device["modules"] as $module)
             {
                 $addmodule = array();
                 if(isset($module["module_name"])) $addmodule["module_name"] = $module["module_name"];
-                $addmodule = array_merge($addmodule, $this->getLastMeasure($client,$device["_id"],$module["_id"]));
+                $addmodule = array_merge($addmodule, $this->getLastMeasure($client,$device["_id"],$device["type"], $module["_id"], $module["type"]));
                 $result["modules"][] = $addmodule;
             }
             $results[] = $result;
