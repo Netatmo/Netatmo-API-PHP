@@ -25,11 +25,10 @@ if(isset($_GET["code"]))
     }
     try
     {
-        $helper = new NAApiHelper();
+        $helper = new NAApiHelper($client);
 
-        $user = $client->api("getuser", "POST");
-        $devicelist = $client->api("devicelist", "POST");
-        $devicelist = $helper->simplifyDeviceList($devicelist);
+        $user = $helper->api("getuser", "POST");
+        $devicelist = $helper->simplifyDeviceList();
         $mesures = $helper->getLastMeasures($client,$devicelist);
 ?>
         <html><body><pre><code>

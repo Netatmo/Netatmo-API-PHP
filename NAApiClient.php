@@ -835,30 +835,43 @@ class NAApiClient
  */
 class NAApiHelper
 {
-    public function simplifyDeviceList($devicelist)
+    public $client;
+    public $devices = array();
+    public function __construct($client)
     {
-        foreach ($devicelist["devices"] as $d=>$device)
+        $this->client = $client;
+    }
+    public function api($method, $action, $params = array())
+    {
+        if(isset($this->client))
+            return $this->client->api($method, $action, $params);
+        else return NULL;
+    }
+    public function simplifyDeviceList($app_type = "app_station")
+    {
+        $this->devices = $this->client->api("devicelist", "POST", array("app_type" => $app_type));
+        foreach($this->devices["devices"] as $d => $device)
         {
-            $moduledetails=Array();
-            foreach ($device["modules"] as $module)
+            $moduledetails = array();
+            foreach($device["modules"] as $module)
             {
-                foreach ($devicelist["modules"] as $moduledetail)
+                foreach($this->devices["modules"] as $moduledetail)
                 {
-                    if ($module==$moduledetail['_id'])
+                    if($module == $moduledetail['_id'])
                     {
-                        $moduledetails[]=$moduledetail;
+                        $moduledetails[] = $moduledetail;
                     }
                 }
             }
-            unset($devicelist["devices"][$d]["modules"]);
-            $devicelist["devices"][$d]["modules"]=$moduledetails;
+            unset($this->devices["devices"][$d]["modules"]);
+            $this->devices["devices"][$d]["modules"]=$moduledetails;
         }
-        unset($devicelist["modules"]);
-        return($devicelist);
+        unset($this->devices["modules"]);
+        return($this->devices);
     }
-    public function getLastMeasure($client, $device, $device_type, $module=null, $module_type = null)
+    public function getMeasure($device, $device_type, $date_begin, $module=null, $module_type = null)
     {
-        $params = array("scale" => "max", "date_end" => "last", "device_id" => $device);
+        $params = array("scale" => "max", "date_begin" => $date_begin, "date_end" => $date_begin+5*60, "device_id" => $device);
         $result = array();
         if(!is_null($module))
         {
@@ -893,7 +906,7 @@ class NAApiHelper
         {
             $types = array($params["type"]);
         }
-        $meas = $client->api("getmeasure", "POST", $params);
+        $meas = $this->client->api("getmeasure", "POST", $params);
         if(isset($meas[0]))
         {
             $result['time'] = $meas[0]['beg_time'];
@@ -905,25 +918,45 @@ class NAApiHelper
         return($result);
 
     }
-    public function getLastMeasures($client,$simplifieddevicelist)
+    public function getLastMeasures()
     {
         $results = array();
-        foreach ($simplifieddevicelist["devices"] as $device)
+        foreach ($this->devices["devices"] as $device)
         {
             $result = array();
             if(isset($device["station_name"])) $result["station_name"] = $device["station_name"];
             if(isset($device["modules"][0])) $result["modules"][0]["module_name"] = $device["module_name"];
-            $result["modules"][0] = array_merge($result["modules"][0], $this->getLastMeasure($client,$device["_id"], $device["type"]));
+            $result["modules"][0] = array_merge($result["modules"][0], $device["dashboard_data"]);
             foreach ($device["modules"] as $module)
             {
                 $addmodule = array();
                 if(isset($module["module_name"])) $addmodule["module_name"] = $module["module_name"];
-                $addmodule = array_merge($addmodule, $this->getLastMeasure($client,$device["_id"],$device["type"], $module["_id"], $module["type"]));
+                $addmodule = array_merge($addmodule, $module["dashboard_data"]);
                 $result["modules"][] = $addmodule;
             }
             $results[] = $result;
         }
         return($results);
+    }
+    public function getAllMeasures($date_begin)
+    {
+        $results = array();
+        foreach ($this->devices["devices"] as $device)
+        {
+            $result = array();
+            if(isset($device["station_name"])) $result["station_name"] = $device["station_name"];
+            if(isset($device["modules"][0])) $result["modules"][0]["module_name"] = $device["module_name"];
+            $result["modules"][0] = array_merge($result["modules"][0], $this->getMeasure($device["_id"], $device["type"], $date_begin));
+            foreach ($device["modules"] as $module)
+            {
+                $addmodule = array();
+                if(isset($module["module_name"])) $addmodule["module_name"] = $module["module_name"];
+                $addmodule = array_merge($addmodule, $this->getMeasure($device["_id"], $device["type"], $date_begin, $module["_id"], $module["type"]));
+                $result["modules"][] = $addmodule;
+            }
+            $results[] = $result;
+        }
+        return($results);    
     }
 }
 

@@ -9,7 +9,7 @@ require_once 'Config.php';
 $scope = NAScopes::SCOPE_READ_STATION;
 
 $client = new NAApiClient(array("client_id" => $client_id, "client_secret" => $client_secret, "username" => $test_username, "password" => $test_password, "scope" => $scope));
-$helper = new NAApiHelper();
+$helper = new NAApiHelper($client);
 
 try {
     $tokens = $client->getAccessToken();
@@ -20,7 +20,7 @@ try {
 }
 
 // Retrieve User Info :
-$user = $client->api("getuser", "POST");
+$user = $helper->api("getuser", "POST");
 echo ("-------------\n");
 echo ("- User Info -\n");
 echo ("-------------\n");
@@ -29,14 +29,18 @@ echo ("OK\n");
 echo ("---------------\n");
 echo ("- Device List -\n");
 echo ("---------------\n");
-$devicelist = $client->api("devicelist", "POST");
-$devicelist = $helper->simplifyDeviceList($devicelist);
-//print_r($devicelist);
+$devicelist = $helper->simplifyDeviceList();
 echo ("OK\n");
 echo ("-----------------\n");
 echo ("- Last Measures -\n");
 echo ("-----------------\n");
-$mesures = $helper->getLastMeasures($client,$devicelist);
+$mesures = $helper->getLastMeasures();
+print_r($mesures);
+echo ("OK\n");
+echo ("---------------------\n");
+echo ("- Last Day Measures -\n");
+echo ("---------------------\n");
+$mesures = $helper->getAllMeasures(mktime() - 86400);
 print_r($mesures);
 echo ("OK\n");
 

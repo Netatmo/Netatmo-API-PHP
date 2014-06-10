@@ -9,7 +9,6 @@ require_once 'Config.php';
 $scope = NAScopes::SCOPE_READ_THERM." ".NAScopes::SCOPE_WRITE_THERM;
 
 $client = new NAApiClient(array("client_id" => $client_id, "client_secret" => $client_secret, "username" => $test_username, "password" => $test_password, "scope" => $scope));
-$helper = new NAApiHelper();
 
 try {
     $tokens = $client->getAccessToken();        
@@ -30,7 +29,7 @@ echo ("OK\n");
 echo ("---------------\n");
 echo ("- Device List -\n");
 echo ("---------------\n");
-$devicelist = $client->api("devicelist", "POST", array("app_type" => "app_thermostat"));
+$devicelist = $clienclientt->api("devicelist", "POST", array("app_type" => "app_thermostat"));
 echo ("OK\n");
 if(isset($devicelist["devices"]) && isset($devicelist["devices"][0])){
     $device = $devicelist["devices"][0];
