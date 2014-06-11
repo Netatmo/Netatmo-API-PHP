@@ -240,11 +240,6 @@ class NAApiClient
         {
             $this->setVariable("code", $_GET["code"]);
         }
-
-        if(isset($config["scope"]))
-        {
-            $this->scope = $config['scope'];
-        }
   }
 
     /**
@@ -409,17 +404,14 @@ class NAApiClient
     * @param state
     *   state returned in redirect_uri
     */
-    public function getAuthorizeUrl($scope = null, $state = null)
+    public function getAuthorizeUrl($state = null)
     {
         $redirect_uri = $this->getRedirectUri();
         if($state == null)
         {
             $state = rand();
         }
-        if(is_null($scope))
-        {
-            $scope = $this->getVariable('scope');
-        }
+        $scope = $this->getVariable('scope');
         $params = array("scope" => $scope, "state" => $state, "client_id" => $this->getVariable("client_id"), "client_secret" => $this->getVariable("client_secret"), "response_type" => "code", "redirect_uri" => $redirect_uri);
         return $this->getUri($this->getVariable("authorize_uri"), $params);
     }
@@ -443,10 +435,6 @@ class NAApiClient
     {
         $redirect_uri = $this->getRedirectUri();
         $scope = $this->getVariable('scope');
-        if($scope == null)
-        {
-            $scope = NAScopes::SCOPE_READ_STATION;
-        }
         if($this->getVariable('access_token_uri') && ($client_id = $this->getVariable('client_id')) != NULL && ($client_secret = $this->getVariable('client_secret')) != NULL && $redirect_uri != NULL)
         {
             $ret = $this->makeRequest($this->getVariable('access_token_uri'),
@@ -487,10 +475,6 @@ class NAApiClient
     private function getAccessTokenFromPassword($username, $password)
     {
         $scope = $this->getVariable('scope');
-        if(is_null($scope))
-        {
-            $scope = NAScopes::SCOPE_READ_STATION;
-        }
         if ($this->getVariable('access_token_uri') && ($client_id = $this->getVariable('client_id')) != NULL && ($client_secret = $this->getVariable('client_secret')) != NULL)
         {
             $ret = $this->makeRequest(
