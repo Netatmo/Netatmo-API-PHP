@@ -29,7 +29,7 @@ echo ("OK\n");
 echo ("---------------\n");
 echo ("- Device List -\n");
 echo ("---------------\n");
-$devicelist = $clienclientt->api("devicelist", "POST", array("app_type" => "app_thermostat"));
+$devicelist = $client->api("devicelist", "POST", array("app_type" => "app_thermostat"));
 echo ("OK\n");
 if(isset($devicelist["devices"]) && isset($devicelist["devices"][0])){
     $device = $devicelist["devices"][0];
