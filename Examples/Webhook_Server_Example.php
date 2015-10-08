@@ -34,7 +34,6 @@ if(!is_null($jsonData) && !empty($jsonData))
             file_put_contents('/tmp/Webhooks_examples.txt', $notif['message']. "\n", FILE_APPEND);
         }
     }
-    die();
 }
 
 ?>
