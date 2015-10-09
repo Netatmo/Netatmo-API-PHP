@@ -19,7 +19,7 @@ class NAClientException extends NASDKException
     public function __construct($code, $message, $error_type)
     {
         $this->error_type = $error_type;
-        parent::__construct($message, $code);
+        parent::__construct($code, $message);
     }
 }
 
