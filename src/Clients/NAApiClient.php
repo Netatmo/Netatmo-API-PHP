@@ -9,12 +9,10 @@ define('INTERNAL_ERROR_TYPE', 2); //error because internal state is not consiste
 define('JSON_ERROR_TYPE',3);
 define('NOT_LOGGED_ERROR_TYPE', 4); //unable to get access token
 
-
 define('BACKEND_BASE_URI', "https://api.netatmo.net/");
 define('BACKEND_SERVICES_URI', "https://api.netatmo.net/api");
 define('BACKEND_ACCESS_TOKEN_URI', "https://api.netatmo.net/oauth2/token");
 define('BACKEND_AUTHORIZE_URI', "https://api.netatmo.net/oauth2/authorize");
-
 
 
 /**
@@ -746,6 +744,27 @@ class NAApiClient
     public function getPartnerDevices()
     {
         return $this->api("partnerdevices", "POST");
+    }
+
+    /**
+    * @param string url : webhook url
+    * @param string app_type : type of webhook
+    * @brief register a webhook notification sent to your app for the current user
+    */
+    protected function addWebhook($url, $app_type)
+    {
+        $params = array('url' => $url, 'app_type' => $app_type);
+        $this->api('addwebhook', $params);
+    }
+
+    /**
+    * @param string $app_type: type of webhook
+    * @brief drop webhook notification for the current user
+    */
+    protected function dropWebhook($app_type)
+    {
+        $params = array('app_type' => $app_type);
+        $this->api('dropwebhook', $params);
     }
 }
 /**

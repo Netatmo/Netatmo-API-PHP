@@ -325,6 +325,16 @@ If you are working with the objects provided by the SDK, just call the object ge
         echo $home->getName() . "\n";
     }
 
+### Webhooks for Netatmo Welcome
+
+Your app can subscribe to Webhooks notification for Netatmo Welcome events. There's two differente way to sign up for this: either by filling in the Webhook URL in your application settings on our developer plaftorm (each user accepting the app will be concerned by webhooks notifications) or you can use the API to manage yourself webhooks registration for users:
+
+    $client->subscribeToWebhook($webhook_url);
+
+And for unsubscribing webhooks for an user:
+
+    $client->dropWebhook();
+
 ## Error handling
 
 ###SDK Errors

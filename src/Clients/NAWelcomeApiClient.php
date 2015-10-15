@@ -94,7 +94,23 @@ class NAWelcomeApiClient extends NAApiClient
         else throw new NAApiErrorType(NARestErrorCode::MISSING_ARGS, "Missing args", NULL);
 
     }
-}
 
+    /**
+    * @param string $url : webhook url
+    * @brief register your app to webhook notification for the current user
+    */
+    public function subscribeToWebhook($url)
+    {
+        $this->addWebhook($url, "app_camera");
+    }
+
+    /**
+    * @brief drop webhook notifications for the current user
+    */
+    public function dropWebhook()
+    {
+        parent::dropWebhook("app_camera");
+    }
+}
 
 ?>
