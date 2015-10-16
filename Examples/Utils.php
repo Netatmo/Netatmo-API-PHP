@@ -235,12 +235,13 @@ function printHomeInformation(NAHome $home)
     echo ("id: ". $home->getId() ."\n");
 
     $tz = $home->getTimezone();
-
-    if(!empty($home->getPersons()))
+    $persons = $home->getPersons();
+	
+    if(!empty($persons))
     {
         printMessageWithBorder("Persons");
         //print person list
-        foreach($home->getPersons() as $person)
+        foreach($persons as $person)
         {
             printPersonInformation($person, $tz);
         }
