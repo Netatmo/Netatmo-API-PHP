@@ -55,7 +55,8 @@ foreach($homes as $home)
 
 $home = $homes[0];
 $tz = $home->getTimezone();
-if(!empty($home->getPersons()))
+$persons = $home->getPersons();
+if(!empty($persons))
 {
     $known = $home->getKnownPersons();
     $person = $known[0];
