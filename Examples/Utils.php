@@ -237,7 +237,7 @@ function printHomeInformation(NAHome $home)
     $tz = $home->getTimezone();
     $persons = $home->getPersons();
 	
-    if(!empty($persons))
+    if ($persons)
     {
         printMessageWithBorder("Persons");
         //print person list
@@ -247,7 +247,7 @@ function printHomeInformation(NAHome $home)
         }
     }
 
-    if((!empty($home->getEvents())))
+    if ($home->getEvents())
     {
         printMessageWithBorder('Timeline of Events');
         //print event list
@@ -257,7 +257,7 @@ function printHomeInformation(NAHome $home)
         }
     }
 
-    if(!empty($home->getCameras()))
+    if ($home->getCameras()) 
     {
         printMessageWithBorder("Cameras");
         foreach($home->getCameras() as $camera)
