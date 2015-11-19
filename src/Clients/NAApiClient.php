@@ -158,6 +158,18 @@ class NAApiClient
             }
         }
 
+        if(isset($config['scope']) && is_array($config['scope']))
+        {
+            foreach($config['scope'] as $scope)
+            {
+                trim($scope);
+            }
+
+            $scope = implode(' ', $config['scope']);
+            $this->setVariable('scope', $scope);
+            unset($config['scope']);
+        }
+
         // Other else configurations.
         foreach ($config as $name => $value)
         {
