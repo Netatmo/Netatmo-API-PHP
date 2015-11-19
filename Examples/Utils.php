@@ -236,30 +236,33 @@ function printHomeInformation(NAHome $home)
 
     $tz = $home->getTimezone();
 
-    if(!empty($home->getPersons()))
+    $persons = $home->getPersons();
+    if(!empty($persons))
     {
         printMessageWithBorder("Persons");
         //print person list
-        foreach($home->getPersons() as $person)
+        foreach($persons as $person)
         {
             printPersonInformation($person, $tz);
         }
     }
 
-    if((!empty($home->getEvents())))
+    $events = $home->getEvents();
+    if(!empty($events))
     {
         printMessageWithBorder('Timeline of Events');
         //print event list
-        foreach($home->getEvents() as $event)
+        foreach($events as $event)
         {
             printEventInformation($event, $tz);
         }
     }
 
-    if(!empty($home->getCameras()))
+    $cameras = $home->getCameras();
+    if(!empty($cameras))
     {
         printMessageWithBorder("Cameras");
-        foreach($home->getCameras() as $camera)
+        foreach($cameras as $camera)
         {
             printCameraInformation($camera);
         }

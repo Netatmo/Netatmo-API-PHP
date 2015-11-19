@@ -55,7 +55,8 @@ foreach($homes as $home)
 
 $home = $homes[0];
 $tz = $home->getTimezone();
-if(!empty($home->getPersons()))
+$persons= $home->getPersons();
+if(!empty($persons))
 {
     $known = $home->getKnownPersons();
     $person = $known[0];
@@ -102,8 +103,12 @@ if(!empty($home->getPersons()))
 
         try
         {
-            printMessageWithBorder("Event's snapshot");
-            echo $event->getSnapshot() . "\n";
+            $snapshot = $event->getSnapshot();
+            if(!is_null($snapshot))
+            {
+                printMessageWithBorder("Event's snapshot");
+                echo $snapshot . "\n";
+            }
         }
         catch(NASDKException $ex)
         {
