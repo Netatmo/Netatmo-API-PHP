@@ -220,6 +220,12 @@ class NAApiClient
         $opts = self::$CURL_OPTS;
         if ($params)
         {
+            if(isset($params['access_token']))
+            {
+                $opts[CURLOPT_HTTPHEADER][] = 'Authorization: Bearer ' . $params['access_token'];
+                unset($params['access_token']);
+            }
+
             switch ($method)
             {
                 case 'GET':
