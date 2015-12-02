@@ -40,6 +40,8 @@ The SDK provides helper-methods to authenticate and authorize your app to access
         echo "An error occcured while trying to retrive your tokens \n";
     }
 
+Please note that you should NOT store users' credentials (which is not secure) and repeatedly perform user credentials authentication as your application's users will receive emails to warn them someone is using their credentials to connect to their account. Instead, you should use the refresh token sent back to you at the end of the authentication process to get a new access token each time it has expired. For more information, about access and refresh tokens, please refer to OAuth2 protocol documentation.
+
 ### Retrieving an access token through Authorization code grant
 
     //test if "code" is provided in get parameters (which would mean that user has already accepted the app and has been redirected here)
