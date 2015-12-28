@@ -68,7 +68,7 @@ Please note that you should NOT store users' credentials (which is not secure) a
     {
         //redirect to Netatmo Authorize URL
         $redirect_url = $client->getAuthorizeUrl();
-        header("HTTP/1.1 ". OAUTH2_HTTTP_FOUND);
+        header("HTTP/1.1 ". OAUTH2_HTTP_FOUND);
         header("Location: ". $redirect_url);
         die();
     }
@@ -87,7 +87,7 @@ Once an access token has been retrieved, it can be used to retrieved user's devi
     $data = $client->getData(NULL, TRUE);
     foreach($data['devices'] as $device)
     {
-        echo device['station_name'] . "\n";
+        echo $device['station_name'] . "\n";
         print_r($device['dashboard_data']);
         foreach($device['modules'] as $module)
         {
