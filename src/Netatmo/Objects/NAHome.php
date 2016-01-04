@@ -1,9 +1,10 @@
 <?php
 
-require_once('NAObject.php');
-require_once('NAEvent.php');
-require_once('NAPerson.php');
-require_once('NACamera.php');
+namespace Netatmo\Objects;
+
+use Netatmo\Common\NACameraHomeInfo;
+use Netatmo\Exceptions\NASDKException;
+use Netatmo\Common\NASDKErrorCode;
 
 /**
 * Class NAHome
@@ -137,7 +138,7 @@ class NAHome extends NAObject
                 return $camera;
             }
         }
-        throw new NASDKException(NASDKError::NOT_FOUND, "camera $camera_id not found in home: " . $this->getId());
+        throw new NASDKException(NASDKErrorCode::NOT_FOUND, "camera $camera_id not found in home: " . $this->getId());
     }
 
     /**
@@ -153,7 +154,7 @@ class NAHome extends NAObject
                 return $person;
         }
 
-        throw new NASDKException(NASDKError::NOT_FOUND, "person $person_id not found in home: " . $this->getId());
+        throw new NASDKException(NASDKErrorCode::NOT_FOUND, "person $person_id not found in home: " . $this->getId());
     }
 
     /**

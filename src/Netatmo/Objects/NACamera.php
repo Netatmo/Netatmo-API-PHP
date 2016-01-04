@@ -1,6 +1,11 @@
 <?php
 
-require_once('NAObject.php');
+namespace Netatmo\Objects;
+
+use Netatmo\Exceptions\NASDKException;
+use Netatmo\Common\NASDKErrorCode;
+use Netatmo\Common\NACameraInfo;
+use Netatmo\Common\NACameraStatus;
 
 /**
 * Class NACamera
@@ -41,7 +46,7 @@ class NACamera extends NAObject
     {
         if(!is_null($this->getVar(NACameraInfo::CI_VPN_URL)))
             return $this->getVar(NACameraInfo::CI_VPN_URL);
-        else throw new NASDKErrorException(NASDKErrorCode::FORBIDDEN_OPERATION, "You don't have access to this field due to the scope of your application");
+        else throw new NASDKException(NASDKErrorCode::FORBIDDEN_OPERATION, "You don't have access to this field due to the scope of your application");
     }
 
     /**
@@ -53,7 +58,7 @@ class NACamera extends NAObject
     {
         if(!is_null($this->getVar(NACameraInfo::CI_IS_LOCAL)))
             return $this->getVar(NACameraInfo::CI_IS_LOCAL);
-        else throw new NASDKErrorException(NASDKErrorCode::FORBIDDEN_OPERATION, "You don't have access to this field due to the scope of your application");
+        else throw new NASDKException(NASDKErrorCode::FORBIDDEN_OPERATION, "You don't have access to this field due to the scope of your application");
     }
 
     public function getSDCardStatus()

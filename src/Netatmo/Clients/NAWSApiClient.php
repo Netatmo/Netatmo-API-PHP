@@ -1,6 +1,7 @@
 <?php
 
-require_once "NAApiClient.php";
+namespace Netatmo\Clients;
+
 
 /**
  * NETATMO WEATHER STATION API PHP CLIENT

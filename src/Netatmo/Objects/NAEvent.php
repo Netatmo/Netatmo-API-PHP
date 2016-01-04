@@ -1,6 +1,11 @@
 <?php
 
-require_once('NAObject.php');
+namespace Netatmo\Objects;
+
+use Netatmo\Exceptions\NASDKException;
+use Netatmo\Common\NACameraEventType;
+use Netatmo\Common\NACameraEventInfo;
+use Netatmo\Common\NASDKErrorCode;
 
 /**
 * Class NAEvent
@@ -58,7 +63,7 @@ class NAEvent extends NAObjectWithPicture
         {
             return $this->getVar(NACameraEventInfo::CEI_SUB_TYPE);
         }
-        else throw new NASDKException(NASDKError::INVALID_FIELD, "This field does not exist for this type of event");
+        else throw new NASDKException(NASDKErrorCode::INVALID_FIELD, "This field does not exist for this type of event");
     }
 
     /**
@@ -83,7 +88,7 @@ class NAEvent extends NAObjectWithPicture
         {
             return $this->getVar(NACameraEventInfo::CEI_PERSON_ID);
         }
-        else throw new NASDKException(NASDKError::INVALID_FIELD, "This field does not exist for this type of event");
+        else throw new NASDKException(NASDKErrorCode::INVALID_FIELD, "This field does not exist for this type of event");
 
     }
 
@@ -103,7 +108,7 @@ class NAEvent extends NAObjectWithPicture
     {
         if($this->hasVideo())
             return $this->getVar(NACameraEventInfo::CEI_VIDEO_ID);
-        else throw new NASDKException(NASDKError::INVALID_FIELD, "This type of event does not have videos");
+        else throw new NASDKException(NASDKErrorCode::INVALID_FIELD, "This type of event does not have videos");
     }
 
     /**
@@ -115,7 +120,7 @@ class NAEvent extends NAObjectWithPicture
     {
         if($this->hasVideo())
             return $this->getVar(NACameraEventInfo::CEI_VIDEO_STATUS);
-        else throw new NASDKException(NASDKError::INVALID_FIELD, "This type of event does not have videos");
+        else throw new NASDKException(NASDKErrorCode::INVALID_FIELD, "This type of event does not have videos");
 
     }
 
@@ -130,7 +135,7 @@ class NAEvent extends NAObjectWithPicture
         {
             return $this->getVar(NACameraEventInfo::CEI_IS_ARRIVAL);
         }
-        else throw new NASDKException(NASDKError::INVALID_FIELD, "This field does not exist for this type of event");
+        else throw new NASDKException(NASDKErrorCode::INVALID_FIELD, "This field does not exist for this type of event");
 
     }
 }

@@ -1,11 +1,14 @@
 <?php
 
-require_once dirname(__FILE__)."/../Objects/NAObject.php";
-require_once dirname(__FILE__)."/../Objects/NAHome.php";
-require_once dirname(__FILE__)."/../Objects/NACamera.php";
-require_once dirname(__FILE__)."/../Objects/NAPerson.php";
-require_once dirname(__FILE__)."/../Objects/NAEvent.php";
-require_once dirname(__FILE__)."/../Exceptions/NASDKException.php";
+namespace Netatmo\Handlers;
+
+use Netatmo\Objects\NAHome;
+use Netatmo\Objects\NACamera;
+use Netatmo\Objects\NAPerson;
+use Netatmo\Objects\NAEvent;
+use Netatmo\Exceptions\NASDKExceptions;
+use Netatmo\Common\NASDKErrorCode;
+
 
 /**
 *
@@ -56,7 +59,7 @@ class NAResponseHandler
 
         }
 
-        else throw new NASDKException(NASDKError::UNABLE_TO_CAST, "Empty Response.");
+        else throw new NASDKException(NASDKErrorCode::UNABLE_TO_CAST, "Empty Response.");
 
     }
 
@@ -89,7 +92,7 @@ class NAResponseHandler
         if(is_array($this->decodedBody) && $this->validateArrayForCast($this->decodedBody, 'homes'))
             return;
 
-        throw new NASDKException(NASDKError::UNABLE_TO_CAST, "Unable to cast data to NAHome object");
+        throw new NASDKException(NASDKErrorCode::UNABLE_TO_CAST, "Unable to cast data to NAHome object");
     }
 
     /**
@@ -105,7 +108,7 @@ class NAResponseHandler
         )
             return;
 
-        throw new NASDKException(NASDKError::UNABLE_TO_CAST, "Unable to cast data to home object");
+        throw new NASDKException(NASDKErrorCode::UNABLE_TO_CAST, "Unable to cast data to home object");
     }
 
     /**
@@ -149,7 +152,7 @@ class NAResponseHandler
         )
             return;
 
-        throw new NASDKException(NASDKError::UNABLE_TO_CAST, "Impossible to cast to NAEvent");
+        throw new NASDKException(NASDKErrorCode::UNABLE_TO_CAST, "Impossible to cast to NAEvent");
     }
 
     /**
@@ -161,7 +164,7 @@ class NAResponseHandler
         if(isset($data['id']) && isset($data['time']) && isset($data['type']))
             return;
 
-        throw new NASDKException(NASDKError::UNABLE_TO_CAST, "Unable to cast data to event object");
+        throw new NASDKException(NASDKErrorCode::UNABLE_TO_CAST, "Unable to cast data to event object");
     }
 }
 ?>

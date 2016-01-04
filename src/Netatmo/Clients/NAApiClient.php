@@ -1,13 +1,15 @@
 <?php
-require_once (dirname(__FILE__).'/../Constants/AppliCommonPublic.php');
-require_once (dirname(__FILE__).'/../Exceptions/NASDKException.php');
-require_once (dirname(__FILE__).'/../Exceptions/NAClientException.php');
 
-define('CURL_ERROR_TYPE', 0);
-define('API_ERROR_TYPE',1);//error return from api
-define('INTERNAL_ERROR_TYPE', 2); //error because internal state is not consistent
-define('JSON_ERROR_TYPE',3);
-define('NOT_LOGGED_ERROR_TYPE', 4); //unable to get access token
+namespace Netatmo\Clients;
+
+use Netatmo\Exceptions\NASDKException;
+use Netatmo\Exceptions\NAClientException;
+use Netatmo\Exceptions\NAApiErrorType;
+use Netatmo\Exceptions\NACurlErrorType;
+use Netatmo\Exceptions\NAJsonErrorType;
+use Netatmo\Exceptions\NAInternalErrorType;
+use Netatmo\Exceptions\NANotLoggedErrorType;
+use Netatmo\Common\NARestErrorCode;
 
 define('BACKEND_BASE_URI', "https://api.netatmo.com/");
 define('BACKEND_SERVICES_URI', "https://api.netatmo.com/api");

@@ -1,5 +1,12 @@
 <?php
 
+if (!defined('__ROOT__'))
+{
+    define('__ROOT__', dirname(dirname(__FILE__)));
+}
+
+require_once (__ROOT__.'/src/Netatmo/autoload.php');
+
 function handleError($message, $exit = FALSE)
 {
     echo $message;
@@ -151,7 +158,7 @@ function printUnit($key)
     $typeUnit = array('temp' => '°C', 'hum' => '%', 'noise' => 'db', 'strength' => 'km/h', 'angle' => '°', 'rain' => 'mm', 'pressure' => 'mbar', 'co2' => 'ppm');
     foreach($typeUnit as $type => $unit)
     {
-        if(preg_match("/.*$type.*/i", $key))
+        if(preg_match("/$type.*$(?<!_trend)/i", $key))
         {
             echo " ".$unit;
             return;
@@ -229,7 +236,7 @@ function getCurrentMode($module)
 
 }
 
-function printHomeInformation(NAHome $home)
+function printHomeInformation(Netatmo\Objects\NAHome $home)
 {
     !is_null($home->getName()) ? printMessageWithBorder($home->getName()) : printMessageWithBorder($home->getId());
     echo ("id: ". $home->getId() ."\n");
@@ -270,7 +277,7 @@ function printHomeInformation(NAHome $home)
 }
 
 
-function printPersonInformation(NAPerson $person, $tz)
+function printPersonInformation(Netatmo\Objects\NAPerson $person, $tz)
 {
     $person->isKnown() ? printMessageWithBorder($person->getPseudo()) : printMessageWithBorder("Inconnu");
     echo("id: ". $person->getId(). "\n");
@@ -283,21 +290,21 @@ function printPersonInformation(NAPerson $person, $tz)
     echo ("\n");
 }
 
-function printEventInformation(NAEvent $event, $tz)
+function printEventInformation(Netatmo\Objects\NAEvent $event, $tz)
 {
   printTimeInTz($event->getTime(), $tz, "j F H:i");
   $message = removeHTMLTags($event->getMessage());
   echo(": ".$message. "\n");
 }
 
-function printCameraInformation(NACamera $camera)
+function printCameraInformation(Netatmo\Objects\NACamera $camera)
 {
     !is_null($camera->getName()) ? printMessageWithBorder($camera->getName()) : printMessageWithBorder($camera->getId());
 
     echo("id: ". $camera->getId() ."\n");
-    echo("Monitoring status: ". $camera->getVar(NACameraInfo::CI_STATUS) ."\n");
-    echo("SD card status: " .$camera->getVar(NACameraInfo::CI_SD_STATUS) . "\n");
-    echo ("Power status: ". $camera->getVar(NACameraInfo::CI_ALIM_STATUS) ."\n");
+    echo("Monitoring status: ". $camera->getVar(Netatmo\Common\NACameraInfo::CI_STATUS) ."\n");
+    echo("SD card status: " .$camera->getVar(Netatmo\Common\NACameraInfo::CI_SD_STATUS) . "\n");
+    echo ("Power status: ". $camera->getVar(Netatmo\Common\NACameraInfo::CI_ALIM_STATUS) ."\n");
 
     if($camera->getGlobalStatus())
         $globalStatus = "OK";

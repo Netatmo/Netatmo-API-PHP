@@ -1,7 +1,10 @@
 <?php
 
-require_once "NAApiClient.php";
-require_once dirname(__FILE__)."/../Handlers/NAResponseHandler.php";
+namespace Netatmo\Clients;
+
+use Netatmo\Handlers\NAResponseHandler;
+use Netatmo\Exceptions\NAClientException;
+use Netatmo\Common\NARestErrorCode;
 
 /**
  * NETATMO Welcome API PHP CLIENT

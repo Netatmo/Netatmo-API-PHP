@@ -5,16 +5,15 @@
 * For more details about Netatmo API, please take a look at https://dev.netatmo.com/doc
 */
 define('__ROOT__', dirname(dirname(__FILE__)));
-require_once __ROOT__.'/src/Clients/NAWSApiClient.php';
-require_once __ROOT__.'/src/Clients/NAThermApiClient.php';
+require_once (__ROOT__.'/src/Netatmo/autoload.php');
 require_once 'Config.php';
 require_once 'Utils.php';
 
 //API client configuration
 $config = array("client_id" => $client_id,
                 "client_secret" => $client_secret,
-                "scope" => NAScopes::SCOPE_READ_STATION);
-$client = new NAWSApiClient($config);
+                "scope" => Netatmo\Common\NAScopes::SCOPE_READ_STATION);
+$client = new Netatmo\Clients\NAWSApiClient($config);
 
 //if code is provided in get param, it means user has accepted your app and been redirected here
 if(isset($_GET["code"]))
@@ -23,7 +22,7 @@ if(isset($_GET["code"]))
     try{
         $tokens = $client->getAccessToken();
     }
-    catch(NAClientException $ex)
+    catch(Netatmo\Exceptions\NAClientException $ex)
     {
         echo "An error occured while trying to retrieve your tokens \n";
         echo "Reason: ".$ex->getMessage()."\n";
@@ -33,7 +32,7 @@ if(isset($_GET["code"]))
     try{
         $data = $client->getData();
     }
-    catch(NAClientException $ex)
+    catch(Netatmo\Exceptions\NAClientException $ex)
     {
        echo "An error occured while retrieving data: ". $ex->getMessage()."\n";
        die();
@@ -193,7 +192,7 @@ function getMonthReport($device, $client)
         $measure = addMeasureKeys($measure, $type);
         $report[$device['_id']] = $measure;
     }
-    catch(NAClientException $ex)
+    catch(Netatmo\Exceptions\NAClientException $ex)
     {
         $report[$device['_id']] = "Error retrieving measure for ".$device['_id'].": " .$ex->getMessage();
     }
@@ -220,7 +219,7 @@ function getMonthReport($device, $client)
             $measure = addMeasureKeys($measure, $type);
             $report[$module['_id']] = $measure;
         }
-        catch(NAClientException $ex)
+        catch(Netatmo\Exceptions\NAClientException $ex)
         {
             $report[$module['_id']] = "Error retrieving measure for " .$module['_id']. ": ".$ex->getMessage();
         }

@@ -1,6 +1,8 @@
 <?php
 
-require_once('NAObject.php');
+namespace Netatmo\Objects;
+
+use Netatmo\Common\NACameraPersonInfo;
 
 /**
 * class NAPerson

@@ -5,12 +5,11 @@
 * For further information, please take a look at https://dev.netatmo.com/doc
 */
 define('__ROOT__', dirname(dirname(__FILE__)));
-require_once (__ROOT__.'/src/Clients/NAThermApiClient.php');
+require_once (__ROOT__.'/src/Netatmo/autoload.php');
 require_once ('Config.php');
 require_once ('Utils.php');
 
-
-$scope = NAScopes::SCOPE_READ_THERM." " .NAScopes::SCOPE_WRITE_THERM;
+$scope = Netatmo\Common\NAScopes::SCOPE_READ_THERM." " .Netatmo\Common\NAScopes::SCOPE_WRITE_THERM;
 
 //Client configuration from Config.php
 $conf = array("client_id" => $client_id,
@@ -18,14 +17,14 @@ $conf = array("client_id" => $client_id,
               "username" => $test_username,
               "password" => $test_password,
               "scope" => $scope);
-$client = new NAThermApiClient($conf);
+$client = new Netatmo\Clients\NAThermApiClient($conf);
 
 //Retrieve access token
 try
 {
     $tokens = $client->getAccessToken();
 }
-catch(NAClientException $ex)
+catch(Netatmo\Exceptions\NAClientException $ex)
 {
     $error_msg = "An error happened  while trying to retrieve your tokens \n" . $ex->getMessage() . "\n";
     handleError($error_msg, TRUE);
@@ -36,7 +35,7 @@ try
 {
     $thermData = $client->getData();
 }
-catch(NAClientException $ex)
+catch(Netatmo\Exceptions\NAClientException $ex)
 {
     handleError("An error occured while retrieve thermostat data: " . $ex->getMessage() . "\n", TRUE);
 }
@@ -66,19 +65,19 @@ else
     $scheduleName = "testSchedule";
     //build schedule's zones & timetable
     $zones = array(
-             array("type" => NAThermZone::THERMOSTAT_SCHEDULE_SLOT_DAY,
+             array("type" => Netatmo\Common\NAThermZone::THERMOSTAT_SCHEDULE_SLOT_DAY,
                    "id" => 0,
                    "temp" => 19),
-             array("type" => NAThermZone::THERMOSTAT_SCHEDULE_SLOT_NIGHT,
+             array("type" => Netatmo\Common\NAThermZone::THERMOSTAT_SCHEDULE_SLOT_NIGHT,
                    "id" => 1,
                   "temp" => 17),
-             array("type" => NAThermZone::THERMOSTAT_SCHEDULE_SLOT_AWAY,
+             array("type" => Netatmo\Common\NAThermZone::THERMOSTAT_SCHEDULE_SLOT_AWAY,
                   "id" => 2,
                   "temp" => 12),
-            array("type" => NAThermZone::THERMOSTAT_SCHEDULE_SLOT_HG,
+            array("type" => Netatmo\Common\NAThermZone::THERMOSTAT_SCHEDULE_SLOT_HG,
                   "id" => 3,
                   "temp" => 7),
-            array("type" => NAThermZone::THERMOSTAT_SCHEDULE_SLOT_ECO,
+            array("type" => Netatmo\Common\NAThermZone::THERMOSTAT_SCHEDULE_SLOT_ECO,
                   "id" => 4,
                   "temp" => 16),
         );
@@ -124,7 +123,7 @@ else
         $schedule_id = $res['schedule_id'];
         printMessageWithBorder("New test Schedule created");
     }
-    catch(NAClientException $ex)
+    catch(Netatmo\Exceptions\NAClientException $ex)
     {
         handleError("An error occured while creating a new schedule: " . $ex->getMessage() . "\n", TRUE);
     }
@@ -136,7 +135,7 @@ else
         {
             $client->switchSchedule($device['_id'], $module_id, $schedule_id);
         }
-        catch(NAClientException $ex)
+        catch(Netatmo\Exceptions\NAClientException $ex)
         {
             handleError("An error occured while changing the device schedule: " . $ex->getMessage(). "\n", TRUE);
         }
@@ -150,7 +149,7 @@ else
         printMessageWithBorder($device['station_name'] . " is now in Away Mode");
 
     }
-    catch(NAClientException $ex)
+    catch(Netatmo\Exceptions\NAClientException $ex)
     {
         handleError("An error occured while setting the thermostat to away mode: ".$ex->getMessage()."\n");
     }
@@ -163,7 +162,7 @@ else
         printMeasure($measurements, $type, $device['place']['timezone'], "Daily Measurements of the last 30 days");
 
     }
-    catch(NAClientException $ex)
+    catch(Netatmo\Exceptions\NAClientException $ex)
     {
         handleError("An error occured while retrieving measures: " . $ex->getMessage(). "\n");
     }
@@ -175,7 +174,7 @@ else
         $client->renameSchedule($device['_id'], $module_id, $schedule_id, "To be deleted");
         printMessageWithBorder("Schedule renamed");
     }
-    catch(NAClientException $ex)
+    catch(Netatmo\Exceptions\NAClientException $ex)
     {
         handleError("An error occured while renaming schedule $schedule_id: " . $ex->getMessage() ."\n");
     }
@@ -189,7 +188,7 @@ else
             printMessageWithBorder("Switching back to the original schedule");
             sleep(30); //wait for thermostat to reconnect so that the change will be effective and initial schedule will be set back
         }
-        catch(NAClientException $ex)
+        catch(Netatmo\Exceptions\NAClientException $ex)
         {
             handleError("An error occured while switching back to original schedule: ". $ex->getMessage() ."\n");
         }
@@ -201,7 +200,7 @@ else
         printMessageWithBorder("test Schedule deleted");
         sleep(20);
     }
-    catch(NAClientException $ex)
+    catch(Netatmo\Exceptions\NAClientException $ex)
     {
         handleError("An error occured while removing schedule $schedule_id " . $ex->getMessage() ."\n");
     }
@@ -213,7 +212,7 @@ else
         printMessageWithBorder("Manual setpoint set");
 
     }
-    catch(NAClientException $ex)
+    catch(Netatmo\Exceptions\NAClientException $ex)
     {
         handleError("An error occured while setting a manual setpoint ". $ex->getMessage() . "\n");
     }
@@ -239,7 +238,7 @@ else
         printMessageWithBorder("Back to original mode: " . $initialMode);
         sleep(20); //wait for thermostat synchronization to make sure, it's back in its initial mode
     }
-    catch(NAClientException $ex)
+    catch(Netatmo\Exceptions\NAClientException $ex)
     {
         handleError("An error occured while setting back the initial mode: ". $ex->getMessage() . " \n");
     }
