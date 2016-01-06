@@ -10,6 +10,8 @@ You also might need to change the include path of the SDK files as they are now 
 ### Updating to v2.1.x
 This release introduced namespaces to avoid collisions with other packages, which is a breaking change as classes provided by the Netatmo SDK are no longer available in the global namespace. For instance, NAThermApiClient becomes Netatmo\Clients\NAThermApiClient. For more information, please see http://php.net/manual/en/language.namespaces.php.
 
+It means the use of Netatmo SDK classes in the global namespace is deprecated. It is still possible to use them so far, so that it won't break your existing code. However, we recommend to update your code as soon as possible to take into account those changes.
+
 It also introduced an autoloader respecting the PSR-4 standards, so you only need to include the src/Netatmo/autoload.php file and you're good to go.
 
 ## Install and Configure
@@ -138,7 +140,7 @@ If you need further information about how the Netatmo Thermostat works, please s
 
 The Thermostat API client just works the same way as the Weather Station API Client:
 
-    $client = new NAThermApiClient($config);
+    $client = new Netatmo\Clients\NAThermApiClient($config);
 
 It also has its own method to retrieve user's thermostats data which returns an array of devices along with their data
 
@@ -237,7 +239,7 @@ If you need more information regarding how the Netatmo Welcome works, please see
 The Netatmo Welcome SDK works in a slightly different way than Netatmo Weather Stations and Netatmo Thermostat SDK do.
 First, instantiate the client:
 
-    $client = new NAWelcomeApiClient($config);
+    $client = new Netatmo\Clients\NAWelcomeApiClient($config);
 
 The Netatmo Welcome SDK enables you to retrieve the data (persons, cameras, events) of every home belonging to an user:
 
