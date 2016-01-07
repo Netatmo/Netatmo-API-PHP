@@ -1,23 +1,30 @@
 # Netatmo-API-PHP
 
+##Updating to v2.x
 This release is a major update, and might break the compatibility with older versions. If you were using an older version of our SDK, you will have to stop using NAApiClient class and use either NAThermApiClient or NAWSApiClient instead.
 
 As a matter of fact, those are adding an additional abstraction layer which will make it easier for you to use : API call using "api" client method are now replaced with dedicated methods along with the parameters they expect for each product API.
 
-You also might need to change the include path of the SDK files as they are now stored in the "src" folder (API clients are stored in "src/Clients/" folder).
+You also might need to change the include path of the SDK files as they are now stored in the "src" folder (API clients are stored in "src/Netatmo/Clients/" folder).
+
+### Updating to v2.1.x
+This release introduced namespaces to avoid collisions with other packages, which is a breaking change as classes provided by the Netatmo SDK are no longer available in the global namespace. For instance, NAThermApiClient becomes Netatmo\Clients\NAThermApiClient. For more information, please see http://php.net/manual/en/language.namespaces.php.
+
+It means the use of Netatmo SDK classes in the global namespace is deprecated. It is still possible to use them so far, so that it won't break your existing code. However, we recommend to update your code as soon as possible to take into account those changes.
+
+It also introduced an autoloader respecting the PSR-4 standards, so you only need to include the src/Netatmo/autoload.php file and you're good to go.
 
 ## Install and Configure
 
-To install the sdk, extract the downloaded files to your project directory. Then, just include NAWSApiClient.php (for Netatmo Weather Station) or NAThermApiClient.php (for Netatmo Thermostat), or NAWelcomeApiClient.php (for Netatmo Welcome) depending on what you need and instantiate a new NAWSApiClient (or NAThermApiClient) object with your application client_id and client_secret:
+To install the sdk, extract the downloaded files to your project directory. Then, just include the src/Netatmo/autoload.php file and instantiate a new NAWSApiClient (or NAThermApiClient, or NAWelcomeApiClient) object with your application client_id and client_secret:
 
 
-    require_once('src/Clients/NAWSApiClient.php');
 
     $config = array();
     $config['client_id'] = "YOUR_APP_ID";
     $config['client_secret'] = "YOUR_APP_SECRET";
     $config['scope'] = 'read_station read_thermostat write_thermostat';
-    $client = new NAApiClient($config);
+    $client = new Netatmo\Clients\NAApiClient($config);
 
 ## Authenticate & Authorize
 
@@ -35,7 +42,7 @@ The SDK provides helper-methods to authenticate and authorize your app to access
         $refresh_token = $tokens["refresh_token"];
         $access_token = $tokens["access_token"];
     }
-    catch(NAClientException $ex)
+    catch(Netatmo\Exceptions\NAClientException $ex)
     {
         echo "An error occcured while trying to retrive your tokens \n";
     }
@@ -53,7 +60,7 @@ Please note that you should NOT store users' credentials (which is not secure) a
            $refresh_token = $tokens['refresh_token'];
            $access_token = $tokens['access_token'];
         }
-        catch(NAClientException $ex)
+        catch(Netatmo\Exceptions\NAClientException $ex)
         {
            echo " An error occured while trying to retrieve your tokens \n";
         }
@@ -133,7 +140,7 @@ If you need further information about how the Netatmo Thermostat works, please s
 
 The Thermostat API client just works the same way as the Weather Station API Client:
 
-    $client = new NAThermApiClient($config);
+    $client = new Netatmo\Clients\NAThermApiClient($config);
 
 It also has its own method to retrieve user's thermostats data which returns an array of devices along with their data
 
@@ -167,7 +174,7 @@ You can easily change the thermostat setpoint:
         $client->setToFrostGuardMode($device['_id'], $module['_id']);
         $client->setToProgramMode($device['_id'], $module['_id']);
     }
-    catch(NAClientException $ex)
+    catch(Netatmo\Exceptions\NAClientException $ex)
     {
         "An error occured";
     }
@@ -232,7 +239,7 @@ If you need more information regarding how the Netatmo Welcome works, please see
 The Netatmo Welcome SDK works in a slightly different way than Netatmo Weather Stations and Netatmo Thermostat SDK do.
 First, instantiate the client:
 
-    $client = new NAWelcomeApiClient($config);
+    $client = new Netatmo\Clients\NAWelcomeApiClient($config);
 
 The Netatmo Welcome SDK enables you to retrieve the data (persons, cameras, events) of every home belonging to an user:
 
@@ -289,7 +296,7 @@ If you are working with the objects provided by the SDK, just call the object ge
 
 ### Quick Example
 
-    $scope = NAScopes::SCOPE_READ_CAMERA;
+    $scope = Netatmo\Common\NAScopes::SCOPE_READ_CAMERA;
 
     //Client configuration from Config.php
     $conf = array("client_id" => $client_id,
@@ -297,14 +304,14 @@ If you are working with the objects provided by the SDK, just call the object ge
               "username" => $test_username,
               "password" => $test_password,
               "scope" => $scope);
-    $client = new NAWelcomeApiClient($conf);
+    $client = new Netatmo\Clients\NAWelcomeApiClient($conf);
 
     //Retrieve access token
     try
     {
         $tokens = $client->getAccessToken();
     }
-    catch(NAClientException $ex)
+    catch(Netatmo\Exceptions\NAClientException $ex)
     {
         echo "An error happened  while trying to retrieve your tokens \n" . $ex->getMessage() . "\n";
     }
@@ -316,7 +323,7 @@ If you are working with the objects provided by the SDK, just call the object ge
         $response = $client->getData(NULL, 10);
         $homes = $response->getData();
     }
-    catch(NASDKException $ex)
+    catch(Netatmo\Exceptions\NASDKException $ex)
     {
         echo "An error happened while trying to retrieve home information: ".$ex->getMessage() ."\n";
     }
@@ -345,7 +352,7 @@ The SDK throws NASDKException when an error happens. It encapsulates Networking 
     try{
         $client->getData();
     }
-    catch(NASDKException $ex)
+    catch(Netatmo\Exceptions\NASDKException $ex)
     {
         //Handle error here
         echo $ex->getMessage();
@@ -358,7 +365,7 @@ The client throws NAClientException if it encounters an error dealing with the A
     try{
         $client->getData();
     }
-    catch(NAClientException $ex)
+    catch(Netatmo\Exceptions\NAClientException $ex)
     {
         //Handle error here
         echo $ex->getMessage();

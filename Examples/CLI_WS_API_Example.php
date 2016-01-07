@@ -6,7 +6,7 @@
 */
 
 define('__ROOT__', dirname(dirname(__FILE__)));
-require_once __ROOT__ . '/src/Clients/NAWSApiClient.php';
+require_once (__ROOT__.'/src/Netatmo/autoload.php');
 require_once 'Utils.php';
 require_once 'Config.php';
 
@@ -33,20 +33,20 @@ function printDevices($devices, $title = NULL)
 
 
 //App client configuration
-$scope = NAScopes::SCOPE_READ_STATION;
+$scope = Netatmo\Common\NAScopes::SCOPE_READ_STATION;
 $config = array("client_id" => $client_id,
                 "client_secret" => $client_secret,
                 "username" => $test_username,
                 "password" => $test_password);
 
-$client = new NAWSApiClient($config);
+$client = new Netatmo\Clients\NAWSApiClient($config);
 
 //Authentication with Netatmo server (OAuth2)
 try
 {
     $tokens = $client->getAccessToken();
 }
-catch(NAClientException $ex)
+catch(Netatmo\Exceptions\NAClientException $ex)
 {
     handleError("An error happened while trying to retrieve your tokens: " .$ex->getMessage()."\n", TRUE);
 }
@@ -59,7 +59,7 @@ try
     $data = $client->getData(NULL, TRUE);
     printMessageWithBorder("Weather Stations Basic Information");
 }
-catch(NAClientException $ex)
+catch(Netatmo\Exceptions\NAClientException $ex)
 {
     handleError("An error occured while retrieving data: ". $ex->getMessage()."\n", TRUE);
 }
@@ -103,7 +103,7 @@ else
         $measure = $client->getMeasure($device['_id'], NULL, "1day" , $type, time() - 24*3600*30, time(), 30,  FALSE, FALSE);
         printMeasure($measure, $type, $tz, $device['_id'] ."'s daily measurements of the last 30 days");
     }
-    catch(NAClientException $ex)
+    catch(Netatmo\Exceptions\NAClientException $ex)
     {
         handleError("An error occured while retrieving main device's daily measurements: " . $ex->getMessage() . "\n");
     }
@@ -120,14 +120,14 @@ else
                               break;
             case "NAModule1" : $type = "temperature,humidity";
                                break;
-            default : $type = "temperature,Co2,humidity,noise,pressure";
+            default : $type = "temperature,Co2,humidity";
         }
         try
         {
             $measure = $client->getMeasure($device['_id'], $module['_id'], "1day" , $type, time()-24*3600*30 , time(), 30,  FALSE, FALSE);
             printMeasure($measure, $type, $tz, $module['_id']. "'s daily measurements of the last 30 days ");
         }
-        catch(NAClientException $ex)
+        catch(Netatmo\Exceptions\NAClientException $ex)
         {
             handleError("An error occured while retrieving main device's daily measurements: " . $ex->getMessage() . "\n");
         }
@@ -141,7 +141,7 @@ else
         $measures = $client->getMeasure($device['_id'], NULL, "1month", $type, NULL, "last", 1, FALSE, FALSE);
         printMeasure($measures, $type, $tz, "Last month information of " .$device['_id'], TRUE);
     }
-    catch(NAClientException $ex)
+    catch(Netatmo\Exceptions\NAClientException $ex)
     {
         handleError("An error occcured while retrieving last month info: ".$ex->getMessage() . " \n");
     }

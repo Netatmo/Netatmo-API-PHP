@@ -6,7 +6,7 @@
 */
 
 define('__ROOT__', dirname(dirname(__FILE__)));
-require_once __ROOT__.'/src/Clients/NAWelcomeApiClient.php';
+require_once (__ROOT__.'/src/Netatmo/autoload.php');
 require_once 'Config.php';
 require_once 'Utils.php';
 
@@ -15,15 +15,15 @@ $config = array("client_id" => $client_id,
             "client_secret" => $client_secret,
             "username" => $test_username,
             "password" => $test_password,
-            "scope" => NAScopes::SCOPE_READ_CAMERA);
-$client = new NAWelcomeApiClient($config);
+            "scope" => Netatmo\Common\NAScopes::SCOPE_READ_CAMERA);
+$client = new Netatmo\Clients\NAWelcomeApiClient($config);
 
 //Retrieve access token
 try
 {
     $tokens = $client->getAccessToken();
 }
-catch(NAClientException $ex)
+catch(Netatmo\Exceptions\NAClientException $ex)
 {
     $error_msg = "An error happened  while trying to retrieve your tokens \n" . $ex->getMessage() . "\n";
     handleError($error_msg, TRUE);
@@ -38,7 +38,7 @@ try
     //Droping your webhook notification for the current user
     $client->dropWebhook();
 }
-catch(NAClientException $ex)
+catch(Netatmo\Exceptions\NAClientException $ex)
 {
     echo "An error occured while trying to subscribe to a webhook";
     die();

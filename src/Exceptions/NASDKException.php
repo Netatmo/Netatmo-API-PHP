@@ -1,21 +1,17 @@
 <?php
 /**
-* Exception thrown by Netatmo SDK
+* Wrapper ensuring backward compatibility with older SDK versions
+*
+* DEPRECATED
+*
+* You must not use this class
+*
 */
-class NASDKException extends Exception
+
+require_once dirname(dirname(__FILE__)) . "/Netatmo/autoload.php";
+
+class NASDKException extends Netatmo\Exceptions\NASDKException
 {
-    public function __construct($code, $message)
-    {
-        parent::__construct($message, $code);
-    }
 }
 
-
-class NASDKError
-{
-    const UNABLE_TO_CAST = 601;
-    const NOT_FOUND = 602;
-    const INVALID_FIELD = 603;
-    const FORBIDDEN_OPERATION = 604;
-}
 ?>
