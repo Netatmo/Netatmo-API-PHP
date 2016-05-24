@@ -84,7 +84,7 @@ Please note that you should NOT store users' credentials (which is not secure) a
 
 ### Netatmo Weather Station API client implementation - PHP SDK
 
-If you need further information about how the Netatmo Weather Station works, please see https://dev.netatmo.com/doc/devices/weatherstation
+If you need further information about how the Netatmo Weather Station works, please see https://dev.netatmo.com/dev/resources#/technical/reference/weatherstation
 
 #### Retrieving Netatmo Weather Station's data
 
@@ -134,7 +134,7 @@ Finally, the real_time flag enables to remove the timestamp offset in scales hig
 
 ### Netatmo Thermostat API client implementation - PHP SDK
 
-If you need further information about how the Netatmo Thermostat works, please see https://dev.netatmo.com/doc/devices/thermostat
+If you need further information about how the Netatmo Thermostat works, please see https://dev.netatmo.com/dev/resources#/technical/reference/thermostat
 
 #### Retrieving Netatmo Thermostat's data
 
@@ -232,7 +232,7 @@ Finally, you can also delete a schedule:
 
 ### Netatmo Welcome API client implementation - PHP SDK
 
-If you need more information regarding how the Netatmo Welcome works, please see https://dev.netatmo.com/doc/devices/camera
+If you need more information regarding how the Netatmo Welcome works, please see https://dev.netatmo.com/dev/resources#/technical/reference/welcome
 
 ### Retrieving Netatmo Welcome data
 
@@ -372,4 +372,4 @@ The client throws NAClientException if it encounters an error dealing with the A
     }
 
 ## Details
-Please read https://dev.netatmo.com/doc for further information.
+Please read https://dev.netatmo.com/dev/resources#/technical/introduction for further information.
