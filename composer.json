@@ -1,0 +1,18 @@
+{
+    "name": "netatmo/netatmo-cli",
+    "type": "library",
+    "description": "Netatmo Products API client implementation - PHP SDK",
+    "keywords" : ["netatmo", "domotic", "cli", "sdk"],
+    "homepage" : "https://dev.netatmo.com/",
+    "license": "None",
+    "minimum-stability": "stable",
+    "require": {},
+    "autoload": {
+        "psr-4": { "": "src/" }
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "2.x-dev"
+        }
+    }
+}
