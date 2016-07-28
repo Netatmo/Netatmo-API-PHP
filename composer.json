@@ -1,0 +1,18 @@
+{
+    "name": "netatmo/netatmo-api",
+    "type": "library",
+    "description": "Netatmo API client implementation - PHP SDK",
+    "keywords" : ["netatmo", "api", "sdk"],
+    "homepage" : "https://dev.netatmo.com/",
+    "license": "MIT",
+    "minimum-stability": "stable",
+    "require": {},
+    "autoload": {
+        "files": ["src/Netatmo/autoload.php"]
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "2.x-dev"
+        }
+    }
+}
