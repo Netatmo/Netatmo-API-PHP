@@ -5,7 +5,6 @@
     "keywords" : ["netatmo", "api", "sdk"],
     "homepage" : "https://dev.netatmo.com/",
     "license": "MIT",
-    "minimum-stability": "stable",
     "require": {},
     "autoload": {
         "files": ["src/Netatmo/autoload.php"]
