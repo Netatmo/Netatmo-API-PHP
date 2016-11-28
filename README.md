@@ -35,7 +35,7 @@ The SDK provides helper-methods to authenticate and authorize your app to access
     $username = "YOUR_USERNAME";
     $pwd = "YOUR_PWD";
     $client->setVariable('username', $username);
-    $client->seVariable('password', $pwd);
+    $client->setVariable('password', $pwd);
     try
     {
         $tokens = $client->getAccessToken();
