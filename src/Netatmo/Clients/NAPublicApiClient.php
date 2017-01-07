@@ -13,9 +13,14 @@ class NAPublicApiClient extends NAApiClient
 
     /*
      * @type PUBLIC API
-     * @param string $device_id
-     * @return array of devices
-     * @brief Method used to retrieve data for the given Thermostat or all the thermostats belonging to the user
+     * @param float $lat_sw Latitude of SW corner
+     * @param float $lat_ne Latitude of NE corner
+     * @param float $lon_sw Longitude of SW corner
+     * @param float $lon_ne Longitude of NE corner
+		 * @param string $required_data Comma separated list of measurements that returned points should offer (optional)
+		 * @param string $filter (optional)
+     * @return Array of measurements as provided by the getpublicdata API from netatmo website
+     * @brief Method uses to retrieve public measurement data from Netatmo website
      */
     public function getData($lat_sw, $lat_ne, $lon_sw, $lon_ne, $required_data = NULL, $filter = NULL)
     {
