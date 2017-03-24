@@ -23,8 +23,7 @@ function printTimeInTz($time, $timezone, $format)
     {
         $tz = new DateTimeZone("GMT");
     }
-    $date = new DateTime();
-    $date->setTimezone($tz);
+    $date = new DateTime("now", $tz);
     $date->setTimestamp($time);
     echo $date->format($format);
 }
