@@ -103,7 +103,7 @@ class NAApiClient
         }
         if(isset($value["expires_in"]))
         {
-            $this->expires_at = time() + $value["expires_in"];
+            $this->expires_at = time() + $value["expires_in"] - 30;
         }
         if(isset($update)) $this->updateSession();
     }
