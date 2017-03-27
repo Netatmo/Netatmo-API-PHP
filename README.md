@@ -21,8 +21,8 @@ To install the sdk, extract the downloaded files to your project directory. Then
 
 
     $config = array();
-    $config['client_id'] = "YOUR_APP_ID";
-    $config['client_secret'] = "YOUR_APP_SECRET";
+    $config['client_id'] = 'YOUR_APP_ID';
+    $config['client_secret'] = 'YOUR_APP_SECRET';
     $config['scope'] = 'read_station read_thermostat write_thermostat';
     $client = new Netatmo\Clients\NAApiClient($config);
 
@@ -32,15 +32,15 @@ The SDK provides helper-methods to authenticate and authorize your app to access
 
 ### Retrieving an access token through a user credential grant
 
-    $username = "YOUR_USERNAME";
-    $pwd = "YOUR_PWD";
+    $username = 'YOUR_USERNAME';
+    $pwd = 'YOUR_PWD';
     $client->setVariable('username', $username);
     $client->setVariable('password', $pwd);
     try
     {
         $tokens = $client->getAccessToken();
-        $refresh_token = $tokens["refresh_token"];
-        $access_token = $tokens["access_token"];
+        $refresh_token = $tokens['refresh_token'];
+        $access_token = $tokens['access_token'];
     }
     catch(Netatmo\Exceptions\NAClientException $ex)
     {
@@ -107,11 +107,11 @@ $data will be an array containing a list of devices along with their modules and
 
 To retrieve a specific device's data, you have to provide its id:
 
-    $data = $client->getData("YOUR_DEVICE_ID");
+    $data = $client->getData('YOUR_DEVICE_ID');
 
 If it is one of the user's favorite device, you'll have to set the "get_favorites" parameter to TRUE in order to retrieve it:
 
-    $data = $client->getData("YOUR_FAV_DEVICE_ID", TRUE);
+    $data = $client->getData('YOUR_FAV_DEVICE_ID', TRUE);
 
 #### Retrieving Netatmo Weather Station's measurements
 
@@ -299,11 +299,11 @@ If you are working with the objects provided by the SDK, just call the object ge
     $scope = Netatmo\Common\NAScopes::SCOPE_READ_CAMERA;
 
     //Client configuration from Config.php
-    $conf = array("client_id" => $client_id,
-              "client_secret" => $client_secret,
-              "username" => $test_username,
-              "password" => $test_password,
-              "scope" => $scope);
+    $conf = array('client_id' => $client_id,
+              'client_secret' => $client_secret,
+              'username' => $test_username,
+              'password' => $test_password,
+              'scope' => $scope);
     $client = new Netatmo\Clients\NAWelcomeApiClient($conf);
 
     //Retrieve access token
