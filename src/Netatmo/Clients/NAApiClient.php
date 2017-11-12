@@ -30,6 +30,7 @@ class NAApiClient
     protected $conf = array();
     protected $refresh_token;
     protected $access_token;
+    protected $expires_at;
     /**
    * Returns a persistent variable.
    *
@@ -100,6 +101,10 @@ class NAApiClient
             $this->refresh_token = $value["refresh_token"];
             $update = true;
         }
+        if(isset($value["expires_in"]))
+        {
+            $this->expires_at = time() + $value["expires_in"] - 30;
+        }
         if(isset($update)) $this->updateSession();
     }
 
@@ -108,7 +113,7 @@ class NAApiClient
     **/
     public function setTokensFromStore($value)
     {
-         if(isset($value["access_token"]))
+        if(isset($value["access_token"]))
             $this->access_token = $value["access_token"];
         if(isset($value["refresh_token"]))
             $this->refresh_token = $value["refresh_token"];
@@ -117,6 +122,7 @@ class NAApiClient
     {
         $this->access_token = null;
         $this->refresh_token = null;
+        $this->expires_at = null;
     }
     /**
     * Initialize a NA OAuth2.0 Client.
@@ -326,7 +332,21 @@ class NAApiClient
     public function getAccessToken()
     {
         //find best way to retrieve access_token
-        if($this->access_token) return array("access_token" => $this->access_token);
+        if($this->access_token)
+        {
+            if(!is_null($this->expires_at) && $this->expires_at < time()) // access_token expired.
+            {
+                if($this->refresh_token)
+                {
+                    return $this->getAccessTokenFromRefreshToken($this->refresh_token);//exception will be thrown otherwise
+                }
+                else
+                {
+                    throw new NAInternalErrorType("Access token expired");
+                }
+            }
+            return array("access_token" => $this->access_token);
+        }
         if($this->getVariable('code'))// grant_type == authorization_code.
         {
             return $this->getAccessTokenFromAuthorizationCode($this->getVariable('code'));
