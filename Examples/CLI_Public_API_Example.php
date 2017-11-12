@@ -40,7 +40,7 @@ try {
 
 // Parse and compute average temperature
 if ($publicData['status'] == 'ok') {
-	echo '*** '.count($publicData['body']).' public results ***'.PHP_EOL;
+	printMessageWithBorder(count($publicData['body']).' public results');
 	
 	$temp = 0;
 	$count = 0;
@@ -59,7 +59,7 @@ if ($publicData['status'] == 'ok') {
 		}
 	}
 	$temp = $temp / $count;
-	echo '*** Average temperature: '.$temp.PHP_EOL;
+	printMessageWithBorder('Average temperature of '.$temp);
 }
 
 ?>
