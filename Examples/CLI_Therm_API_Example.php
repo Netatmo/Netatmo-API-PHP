@@ -154,12 +154,13 @@ else
         handleError("An error occured while setting the thermostat to away mode: ".$ex->getMessage()."\n");
     }
 
-    //Get daily measurements of the last 30 days
+    //Get daily measurements of the last days
     $type = "temperature,max_temp,min_temp";
+	$days = 10;
     try
     {
-        $measurements = $client->getMeasure($thermData['devices'][1]['_id'], $thermData['devices'][1]['modules'][0]['_id'], "1day", $type, time()-3600*24*30, time(), 30, FALSE, FALSE);
-        printMeasure($measurements, $type, $device['place']['timezone'], "Daily Measurements of the last 30 days");
+        $measurements = $client->getMeasure($device['_id'], $device['modules'][0]['_id'], "1day", $type, time()-3600*24*$days, time(), $days, FALSE, FALSE);
+        printMeasure($measurements, $type, $device['place']['timezone'], "Daily Measurements of the last ".$days." days");
 
     }
     catch(Netatmo\Exceptions\NAClientException $ex)
