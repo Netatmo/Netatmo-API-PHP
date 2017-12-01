@@ -159,7 +159,7 @@ Thermostat also has its getMeasure method, which works in the exact same way as 
     $scale = "1day";
     $type = "Temperature,max_temp,min_temp,date_max_temp";
     $date_begin = time() -24*3600*7; //1 week ago
-    $date_end = time() //now
+    $date_end = time(); //now
     $optimized = FALSE;
     $real_time = FALSE;
     $measurements = $client->getMeasure($device['_id'], $module_id, $scale, $type, $date_begin, $date_end, $optimized, $real_time);
