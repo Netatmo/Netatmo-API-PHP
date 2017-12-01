@@ -160,9 +160,10 @@ Thermostat also has its getMeasure method, which works in the exact same way as 
     $type = "Temperature,max_temp,min_temp,date_max_temp";
     $date_begin = time() -24*3600*7; //1 week ago
     $date_end = time(); //now
+    $limit = NULL;
     $optimized = FALSE;
     $real_time = FALSE;
-    $measurements = $client->getMeasure($device['_id'], $module_id, $scale, $type, $date_begin, $date_end, $optimized, $real_time);
+    $measurements = $client->getMeasure($device['_id'], $module_id, $scale, $type, $date_begin, $date_end, $limit, $optimized, $real_time);
 
 
 #### Sending orders to the Netatmo Thermostat
