@@ -353,7 +353,7 @@ class NAApiClient
         }
         else if($this->refresh_token)// grant_type == refresh_token
         {
-            return $this->getAccessTokenFromRefreshToken($this->refresh_token);
+            return $this->getAccessTokenFromRefreshToken();
         }
         else if($this->getVariable('username') && $this->getVariable('password'))  //grant_type == password
         {
