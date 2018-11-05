@@ -84,7 +84,7 @@ Please note that you should NOT store users' credentials (which is not secure) a
 
 ### Netatmo Weather Station API client implementation - PHP SDK
 
-If you need further information about how the Netatmo Weather Station works, please see https://dev.netatmo.com/dev/resources#/technical/reference/weatherstation
+If you need further information about how the Netatmo Weather Station works, please see https://dev.netatmo.com/resources/technical/reference/weather
 
 #### Retrieving Netatmo Weather Station's data
 
@@ -128,13 +128,13 @@ You can also retrieve specific measurements of a given period for a given device
     $measurements = $client->getMeasure($device['_id'], $module_id, $scale, $type, $date_begin, $date_end, $optimized, $real_time);
 
 Please note that not giving a module_id will retrieve main device measurements.
-The scale parameter corresponds to the step between two measures, the type depends on the device or module data_type and the scale. For more details regarding its allowed values, please take a glance at https://dev.netatmo.com/doc/getmeasure.
+The scale parameter corresponds to the step between two measures, the type depends on the device or module data_type and the scale. For more details regarding its allowed values, please take a glance at https://dev.netatmo.com/resources/technical/reference/common/getmeasure.
 Set the optimized flag to true, if you need the json response to be lighter but a little trickier to parse : you'll only have the beginning timestamp provided, and you'll have to compute the others using the scale.
 Finally, the real_time flag enables to remove the timestamp offset in scales higher than 'max'. As a matter of fact, since data are aggregated timestamps are offset by + scale/2 by default.
 
 ### Netatmo Thermostat API client implementation - PHP SDK
 
-If you need further information about how the Netatmo Thermostat works, please see https://dev.netatmo.com/dev/resources#/technical/reference/thermostat
+If you need further information about how the Netatmo Thermostat works, please see https://dev.netatmo.com/resources/technical/reference/energy
 
 #### Retrieving Netatmo Thermostat's data
 
@@ -233,7 +233,7 @@ Finally, you can also delete a schedule:
 
 ### Netatmo Welcome API client implementation - PHP SDK
 
-If you need more information regarding how the Netatmo Welcome works, please see https://dev.netatmo.com/dev/resources#/technical/reference/welcome
+If you need more information regarding how the Netatmo Welcome works, please see https://dev.netatmo.com/resources/technical/reference/security
 
 ### Retrieving Netatmo Welcome data
 
@@ -373,4 +373,4 @@ The client throws NAClientException if it encounters an error dealing with the A
     }
 
 ## Details
-Please read https://dev.netatmo.com/dev/resources#/technical/introduction for further information.
+Please read https://dev.netatmo.com/resources/technical/reference for further information.
