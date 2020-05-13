@@ -21,7 +21,7 @@ class NAWSApiClient extends NAApiClient
    */
    public function getData($device_id = NULL, $get_favorites = TRUE)
    {
-		    $params = array();
+        $params = array();
         $optionals = array('device_id' => $device_id, 'get_favorites' => $get_favorites);
         foreach($optionals as $key => $value)
         {
