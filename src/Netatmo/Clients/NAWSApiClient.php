@@ -21,7 +21,14 @@ class NAWSApiClient extends NAApiClient
    */
    public function getData($device_id = NULL, $get_favorites = TRUE)
    {
-       return $this->api('getstationsdata', 'GET', array($device_id, $get_favorites));
+        $params = array();
+        $optionals = array('device_id' => $device_id, 'get_favorites' => $get_favorites);
+        foreach($optionals as $key => $value)
+        {
+            if(!is_null($value)) $params[$key] = $value;
+        }
+       
+       return $this->api('getstationsdata', 'GET', $params);
    }
 
    /*
