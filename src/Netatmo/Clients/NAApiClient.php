@@ -939,6 +939,4 @@ class NAApiHelper
     }
 }
 
-
-
 ?>
