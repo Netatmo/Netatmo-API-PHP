@@ -293,12 +293,12 @@ class NAApiClient
         list($headers, $body) = explode("\r\n\r\n", $result);
         $headers = explode("\r\n", $headers);
         //Only 2XX response are considered as a success
-        if(strpos($headers[0], 'HTTP/1.1 2') !== FALSE)
+        if(strpos($headers[0], 'HTTP/2') !== FALSE)
         {
             $decode = json_decode($body, TRUE);
             if(!$decode)
             {
-                if (preg_match('/^HTTP\/1.1 ([0-9]{3,3}) (.*)$/', $headers[0], $matches))
+                if (preg_match('/^HTTP\/2 ([0-9]{3,3}) (.*)$/', $headers[0], $matches))
                 {
                     throw new NAJsonErrorType($matches[1], $matches[2]);
                 }
@@ -308,7 +308,7 @@ class NAApiClient
         }
         else
         {
-            if (!preg_match('/^HTTP\/1.1 ([0-9]{3,3}) (.*)$/', $headers[0], $matches))
+            if (!preg_match('/^HTTP\/2 ([0-9]{3,3}) (.*)$/', $headers[0], $matches))
             {
                 $matches = array("", 400, "bad request");
             }
@@ -317,6 +317,7 @@ class NAApiClient
             {
                 throw new NAApiErrorType($matches[1], $matches[2], null);
             }
+
             throw new NAApiErrorType($matches[1], $matches[2], $decode);
         }
     }
